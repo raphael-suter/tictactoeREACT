@@ -2,7 +2,7 @@
   "name": "tictactoereact",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
+  "main": "index.tsx",
   "scripts": {
     "start": "webpack-dev-server --hot --open",
     "build": "webpack --mode production"
@@ -30,8 +30,6 @@
     "html-webpack-plugin": "^3.2.0",
     "install": "^0.13.0",
     "node-sass": "^4.13.1",
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0",
     "sass-loader": "^8.0.2",
     "source-map-loader": "^0.2.4",
     "style-loader": "^1.1.3",
@@ -41,5 +39,8 @@
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.3"
   },
-  "dependencies": {}
+  "dependencies": {
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0"
+  }
 }

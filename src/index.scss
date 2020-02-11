@@ -1,8 +1,7 @@
-.container {
-  align-items: center;
-  display: flex;
-  justify-content: center;
-  padding-top: 10px;
-  width: 100%;
-  color: red;
+@import url("https://fonts.googleapis.com/css?family=Source+Sans+Pro&display=swap");
+
+* {
+  margin: 0;
+  padding: 0;
+  font-family: "Source Sans Pro", sans-serif;
 }
