@@ -5,10 +5,10 @@ let CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
     entry: './src/index.tsx',
     output: {
-        path: __dirname + '/build',
+        path: __dirname + './build',
         filename: 'script-bundle.js'
     },
-    mode: 'production',
+    mode: 'development',
     module: {
         rules: [
             {
@@ -31,14 +31,14 @@ module.exports = {
     plugins: [
         new HtmlWebpackPlugin({
             filename: 'index.html',
-            template: './public/index.html'
+            template: './static/index.html'
         }),
         new LiveReloadPlugin({
             appendScriptTag: true
         }),
         new CopyWebpackPlugin([
             {
-                from: './public',
+                from: './static',
             }
         ])
     ]
