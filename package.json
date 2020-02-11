@@ -1,46 +1,45 @@
 {
-  "name": "tictactoereact",
+  "name": "tictactoeREACT",
   "version": "1.0.0",
-  "main": "index.tsx",
+  "description": "",
+  "main": "index.js",
   "scripts": {
-    "start": "webpack-dev-server",
-    "build": "webpack"
+    "start": "webpack-dev-server --hot --open",
+    "build": "webpack --config webpack.config.js --mode production"
   },
-  "author": "Raphael Suter",
-  "license": "ISC",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/raphael-suter/tictactoeREACT.git"
   },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
   "bugs": {
     "url": "https://github.com/raphael-suter/tictactoeREACT/issues"
   },
   "homepage": "https://github.com/raphael-suter/tictactoeREACT#readme",
-  "keywords": [],
-  "description": "",
-  "dependencies": {
-    "react": "^16.12.0",
-    "react-dom": "^16.12.0"
-  },
   "devDependencies": {
     "@babel/core": "^7.8.4",
+    "@babel/preset-env": "^7.8.4",
     "@babel/preset-react": "^7.8.3",
+    "@types/react": "^16.9.19",
+    "@types/react-dom": "^16.9.5",
     "babel-loader": "^8.0.6",
-    "copy-webpack-plugin": "^5.1.1",
     "css-loader": "^3.4.2",
+    "file-loader": "^5.0.2",
     "html-webpack-plugin": "^3.2.0",
     "install": "^0.13.0",
     "node-sass": "^4.13.1",
-    "npm": "^6.13.7",
+    "react": "^16.12.0",
+    "react-dom": "^16.12.0",
     "sass-loader": "^8.0.2",
+    "source-map-loader": "^0.2.4",
     "style-loader": "^1.1.3",
-    "webpack": "^4.41.5",
+    "ts-loader": "^6.2.1",
+    "typescript": "^3.7.5",
+    "webpack": "^4.41.6",
     "webpack-cli": "^3.3.10",
     "webpack-dev-server": "^3.10.3"
   },
-  "babel": {
-    "presets": [
-      "@babel/preset-react"
-    ]
-  }
+  "dependencies": {}
 }
