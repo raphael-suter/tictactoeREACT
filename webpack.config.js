@@ -5,7 +5,7 @@ let CopyWebpackPlugin = require('copy-webpack-plugin');
 module.exports = {
     entry: './src/index.tsx',
     output: {
-        path: __dirname + './build',
+        path: __dirname + '/build',
         filename: 'script-bundle.js'
     },
     mode: 'development',
