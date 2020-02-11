@@ -3,10 +3,9 @@
   "version": "1.0.0",
   "main": "index.tsx",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "start": "webpack --watch"
   },
-  "author": "",
+  "author": "Raphael Suter",
   "license": "ISC",
   "repository": {
     "type": "git",
