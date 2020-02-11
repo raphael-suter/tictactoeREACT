@@ -3,7 +3,8 @@
   "version": "1.0.0",
   "main": "index.tsx",
   "scripts": {
-    "start": "webpack --watch"
+    "start": "webpack-dev-server",
+    "build": "webpack"
   },
   "author": "Raphael Suter",
   "license": "ISC",
@@ -35,7 +36,7 @@
     "style-loader": "^1.1.3",
     "webpack": "^4.41.5",
     "webpack-cli": "^3.3.10",
-    "webpack-livereload-plugin": "^2.2.0"
+    "webpack-dev-server": "^3.10.3"
   },
   "babel": {
     "presets": [

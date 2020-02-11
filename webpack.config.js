@@ -1,5 +1,4 @@
 let HtmlWebpackPlugin = require('html-webpack-plugin');
-let LiveReloadPlugin = require('webpack-livereload-plugin');
 let CopyWebpackPlugin = require('copy-webpack-plugin');
 
 module.exports = {
@@ -8,7 +7,7 @@ module.exports = {
         path: __dirname + '/build',
         filename: 'script-bundle.js'
     },
-    mode: 'development',
+    mode: 'production',
     module: {
         rules: [
             {
@@ -32,9 +31,6 @@ module.exports = {
         new HtmlWebpackPlugin({
             filename: 'index.html',
             template: './static/index.html'
-        }),
-        new LiveReloadPlugin({
-            appendScriptTag: true
         }),
         new CopyWebpackPlugin([
             {
