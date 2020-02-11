@@ -1,23 +1,11 @@
-import React, { PureComponent } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.scss';
 
-class App extends PureComponent<{}> {
-    constructor() {
-        super({});
-
-        this.state = {
-
-        }
-    }
-
-    render() {
-        return (
-            <div className="container">
-                <h1>Hello World, React!</h1>
-            </div>
-        );
-    }
-}
+const App = () => (
+    <div className="container">
+        <h1>Hello World!</h1>
+    </div>
+);
 
 ReactDOM.render(<App />, document.getElementById("root"))
