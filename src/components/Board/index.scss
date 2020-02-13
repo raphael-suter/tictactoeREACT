@@ -1,0 +1,12 @@
+@import "../../styles/colors.scss";
+@import "../../styles/mixins.scss";
+
+.board {
+  padding: 5% 1.2rem 1.2rem;
+
+  .grid {
+    @include card;
+    display: flex;
+    flex-wrap: wrap;
+  }
+}
