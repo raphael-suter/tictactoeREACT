@@ -6,29 +6,30 @@ import Dialog, { Button, TextField } from './components/Dialog';
 import { Title } from './components/Dialog/Title';
 import Toolbar from './components/Toolbar';
 import './index.scss';
-
-const COMBINATIONS: number[][] = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
-
-enum COOKIES {
-    PLAYER_X = 'player_x',
-    POINTS_X = 'points_x',
-    PLAYER_O = 'player_o',
-    POINTS_O = 'points_o'
-}
+import Player from './scripts/Player';
+import PlayerHandler, { PLAYER } from './scripts/PlayerHandler';
 
 interface State {
-    playerX: string;
-    pointsX: number;
-    playerY: string;
-    pointsY: number;
+    player_x: Player;
+    player_o: Player;
     fields: string[];
     userDialogVisible: boolean;
     message: string;
     messageDialogVisible: boolean;
 }
 
+const initialState: State = {
+    player_x: new Player('X'),
+    player_o: new Player('O'),
+    fields: Array(9).fill(''),
+    userDialogVisible: true,
+    message: '',
+    messageDialogVisible: false
+}
+
 class App extends PureComponent<{}, State> {
     private clicks: number;
+    private playerHandler: PlayerHandler;
     private playerX_TextField: React.RefObject<HTMLInputElement>;
     private playerO_TextField: React.RefObject<HTMLInputElement>;
 
@@ -36,58 +37,41 @@ class App extends PureComponent<{}, State> {
         super(props);
 
         this.clicks = 0;
+        this.playerHandler = new PlayerHandler();
         this.playerX_TextField = React.createRef();
         this.playerO_TextField = React.createRef();
-
-        this.state = {
-            playerX: 'X',
-            pointsX: 0,
-            playerY: 'O',
-            pointsY: 0,
-            fields: Array(9).fill(''),
-            userDialogVisible: false,
-            message: '',
-            messageDialogVisible: false
-        }
+        this.state = initialState;
     }
 
     render() {
-        const { playerX, pointsX, playerY, pointsY, fields, userDialogVisible, message, messageDialogVisible } = this.state;
+        const { player_x, player_o, fields, userDialogVisible, message, messageDialogVisible } = this.state;
 
         return (
             <>
-                <Toolbar title='TicTacToe' score={playerX + ' ' + pointsX + ':' + pointsY + ' ' + playerY} buttonIcon='delete' buttonOnClick={() => this.reset()} />
+                <Toolbar title='TicTacToe' score={player_x.name + ' ' + player_x.points + ':' + player_o.points + ' ' + player_o.name} buttonIcon='delete' buttonOnClick={() => this.deleteData()} />
                 <Board>
                     {fields.map((item, index) => <Field content={item} key={index} onClick={() => this.selectField(index)} />)}
                 </Board>
                 <Dialog visible={userDialogVisible}>
                     <TextField label='Player X' placeholder='Name' reference={this.playerX_TextField} />
                     <TextField label='Player O' placeholder='Name' reference={this.playerO_TextField} />
-                    <Button text='save' onClick={() => this.saveUserData()} />
+                    <Button text='save' onClick={() => this.savePlayers()} />
                 </Dialog>
                 <Dialog visible={messageDialogVisible}>
                     <Title text={message} />
-                    <Button text='restart' onClick={() => window.location.reload()} />
+                    <Button text='restart' onClick={() => this.restart()} />
                 </Dialog>
             </>
         );
     }
 
     componentDidMount() {
-        if (this.checkCookies()) {
-            this.displayScore();
-        } else {
-            this.showUserDialog();
+        if (this.playerHandler.load(PLAYER.PLAYER_X) !== null && this.playerHandler.load(PLAYER.PLAYER_O) !== null) {
+            this.displayPlayers();
         }
     }
 
-    showUserDialog() {
-        this.setState({
-            userDialogVisible: true
-        });
-    }
-
-    saveUserData() {
+    savePlayers() {
         let countEmptyFields = 0;
 
         countEmptyFields += this.textFieldIsEmpty(this.playerX_TextField.current);
@@ -97,20 +81,23 @@ class App extends PureComponent<{}, State> {
             return;
         }
 
-        this.setCookie(COOKIES.PLAYER_X, this.playerX_TextField.current.value);
-        this.setCookie(COOKIES.POINTS_X, '0');
-        this.setCookie(COOKIES.PLAYER_O, this.playerO_TextField.current.value);
-        this.setCookie(COOKIES.POINTS_O, '0');
+        this.playerHandler.save(PLAYER.PLAYER_X, new Player(this.playerX_TextField.current.value));
+        this.playerHandler.save(PLAYER.PLAYER_O, new Player(this.playerO_TextField.current.value));
 
+        this.displayPlayers();
+    }
+
+    displayPlayers() {
         this.setState({
+            player_x: this.playerHandler.load(PLAYER.PLAYER_X),
+            player_o: this.playerHandler.load(PLAYER.PLAYER_O),
             userDialogVisible: false
         });
-
-        this.displayScore();
     }
 
     selectField(index: number) {
-        let fields = this.state.fields.slice();
+        const fields = this.state.fields.slice();
+        let currentPlayer: PLAYER;
 
         if (!this.isEmpty(fields[index])) {
             return;
@@ -118,47 +105,39 @@ class App extends PureComponent<{}, State> {
 
         if (this.clicks % 2 === 0) {
             fields[index] = 'X';
+            currentPlayer = PLAYER.PLAYER_X;
         } else {
             fields[index] = 'O';
+            currentPlayer = PLAYER.PLAYER_O;
         }
 
         this.setState({
             fields
         });
 
-        for (const item of COMBINATIONS) {
+        for (const item of [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]) {
             if (!this.isEmpty(fields[item[0]]) && fields[item[0]] === fields[item[1]] && fields[item[1]] === fields[item[2]]) {
-                if (this.clicks % 2 === 0) {
-                    this.incrementCookieValue(COOKIES.POINTS_X);
-                    this.displayWinner(COOKIES.PLAYER_X);
-                } else {
-                    this.incrementCookieValue(COOKIES.POINTS_O);
-                    this.displayWinner(COOKIES.PLAYER_O);
-                }
-
-                this.displayScore();
+                this.displayWinner(currentPlayer);
                 return;
             }
         }
 
-        if (this.checkIfEven(fields)) {
+        if (this.checkIfDraw(fields)) {
             this.displayMessage('Unentschieden!');
+            return;
         }
 
         this.clicks++;
     }
 
-    displayScore() {
-        this.setState({
-            playerX: this.getCookie(COOKIES.PLAYER_X),
-            pointsX: Number.parseInt(this.getCookie(COOKIES.POINTS_X)),
-            playerY: this.getCookie(COOKIES.PLAYER_O),
-            pointsY: Number.parseInt(this.getCookie(COOKIES.POINTS_O))
-        });
-    }
+    displayWinner(playerKey: PLAYER) {
+        const player = this.playerHandler.load(playerKey);
 
-    displayWinner(key: COOKIES) {
-        this.displayMessage(this.getCookie(key) + ' hat gewonnen!');
+        player.points++;
+        this.playerHandler.save(playerKey, player);
+
+        this.displayMessage(player.name + ' hat gewonnen!');
+        this.displayPlayers();
     }
 
     displayMessage(text: string) {
@@ -168,19 +147,7 @@ class App extends PureComponent<{}, State> {
         });
     }
 
-    checkCookies(): boolean {
-        let cookiesAreValid = true;
-
-        Object.values(COOKIES).forEach(key => {
-            if (this.isEmpty(this.getCookie(key))) {
-                cookiesAreValid = false;
-            }
-        });
-
-        return cookiesAreValid
-    }
-
-    checkIfEven(fields: string[]): boolean {
+    checkIfDraw(fields: string[]): boolean {
         let noEmptyFields = true;
 
         fields.forEach((item: string) => {
@@ -192,36 +159,12 @@ class App extends PureComponent<{}, State> {
         return noEmptyFields;
     }
 
-    reset() {
-        Object.values(COOKIES).forEach((key: COOKIES) => {
-            this.deleteCookie(key);
+    deleteData() {
+        Object.values(PLAYER).forEach((key: PLAYER) => {
+            this.playerHandler.delete(key);
         });
 
-        window.location.reload();
-    }
-
-    setCookie(key: COOKIES, value: string) {
-        document.cookie = key + '=' + value;
-    }
-
-    getCookie(key: COOKIES): string {
-        const cookies = document.cookie.split('; ');
-        return cookies.filter((item: string) => {
-            const cookieKey = item.substr(0, 8);
-
-            if (cookieKey === key) {
-                return item;
-            }
-        }
-        ).toString().substr(9);
-    }
-
-    deleteCookie(key: COOKIES) {
-        document.cookie = key + '=; expires=Thu, 01 Jan 1970 00:00:00 GMT';
-    }
-
-    incrementCookieValue(key: COOKIES) {
-        this.setCookie(key, (parseInt(this.getCookie(key)) + 1).toString());
+        this.restart();
     }
 
     isEmpty(item: string): boolean {
@@ -236,6 +179,12 @@ class App extends PureComponent<{}, State> {
             textField.classList.remove('empty');
             return 0;
         }
+    }
+
+    restart() {
+        this.clicks = 0;
+        this.setState(initialState);
+        this.componentDidMount();
     }
 }
 
