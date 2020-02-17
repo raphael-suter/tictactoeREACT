@@ -1,0 +1,14 @@
+@import "../../../styles/colors.scss";
+
+.button {
+  margin: 0.6rem;
+  padding: 0.5rem 2rem;
+  text-decoration: none;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 16px;
+  border: 1px solid $mainColor;
+  background: $mainColor;
+  color: $lightColor;
+  cursor: pointer;
+}
