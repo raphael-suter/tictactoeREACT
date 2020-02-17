@@ -5,7 +5,8 @@
   "main": "index.tsx",
   "scripts": {
     "start": "webpack-dev-server --hot --open",
-    "build": "webpack --mode production"
+    "build": "webpack --mode production",
+    "deploy": "npm build && git checkout gh-pages && cp -a build/. ./ && git add . && git commit -m Updates && git push origin gh-pages"
   },
   "repository": {
     "type": "git",
