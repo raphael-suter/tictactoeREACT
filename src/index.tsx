@@ -96,33 +96,33 @@ class App extends PureComponent<{}, State> {
     }
 
     selectField(index: number) {
-        const fields = this.state.fields.slice();
+        const FIELDS = this.state.fields.slice();
         let currentPlayer: PLAYER;
 
-        if (!this.isEmpty(fields[index])) {
+        if (!this.isEmpty(FIELDS[index])) {
             return;
         }
 
         if (this.clicks % 2 === 0) {
-            fields[index] = 'X';
+            FIELDS[index] = 'X';
             currentPlayer = PLAYER.PLAYER_X;
         } else {
-            fields[index] = 'O';
+            FIELDS[index] = 'O';
             currentPlayer = PLAYER.PLAYER_O;
         }
 
         this.setState({
-            fields
+            fields: FIELDS
         });
 
-        for (const item of [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]) {
-            if (!this.isEmpty(fields[item[0]]) && fields[item[0]] === fields[item[1]] && fields[item[1]] === fields[item[2]]) {
+        for (const ITEM of [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]) {
+            if (!this.isEmpty(FIELDS[ITEM[0]]) && FIELDS[ITEM[0]] === FIELDS[ITEM[1]] && FIELDS[ITEM[1]] === FIELDS[ITEM[2]]) {
                 this.displayWinner(currentPlayer);
                 return;
             }
         }
 
-        if (this.checkIfDraw(fields)) {
+        if (this.checkIfDraw(FIELDS)) {
             this.displayMessage('Unentschieden!');
             return;
         }
@@ -182,9 +182,10 @@ class App extends PureComponent<{}, State> {
     }
 
     restart() {
-        this.clicks = 0;
         this.setState(initialState);
         this.componentDidMount();
+
+        this.clicks = 0;
     }
 }
 
