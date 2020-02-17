@@ -8,5 +8,16 @@
     @include card;
     display: flex;
     flex-wrap: wrap;
+    animation: fade_in_animation 0.5s linear;
+  }
+}
+
+@keyframes fade_in_animation {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
   }
 }
