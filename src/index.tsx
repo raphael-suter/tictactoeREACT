@@ -1,128 +1,117 @@
 import 'material-design-icons/iconfont/material-icons.css';
 import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
-import Board, { Field } from './components/Board';
-import Dialog, { Button, TextField } from './components/Dialog';
-import { Title } from './components/Dialog/Title';
+import Board from './components/Board';
+import Field from './components/Board/Field';
+import Dialog from './components/Dialog';
+import Button from './components/Dialog/Button';
+import TextField from './components/Dialog/TextField';
+import Title from './components/Dialog/Title';
 import Toolbar from './components/Toolbar';
 import './index.scss';
-import Player from './scripts/Player';
-import PlayerHandler, { PLAYER } from './scripts/PlayerHandler';
-
-interface State {
-    player_x: Player;
-    player_o: Player;
-    fields: string[];
-    userDialogVisible: boolean;
-    message: string;
-    messageDialogVisible: boolean;
-}
-
-const initialState: State = {
-    player_x: new Player('X'),
-    player_o: new Player('O'),
-    fields: Array(9).fill(''),
-    userDialogVisible: true,
-    message: '',
-    messageDialogVisible: false
-}
+import Player from './Player';
+import PlayerHandler from './PlayerHandler';
+import State from './State';
 
 class App extends PureComponent<{}, State> {
     private clicks: number;
     private playerHandler: PlayerHandler;
-    private playerX_TextField: React.RefObject<HTMLInputElement>;
-    private playerO_TextField: React.RefObject<HTMLInputElement>;
 
     constructor(props: {}) {
         super(props);
 
         this.clicks = 0;
         this.playerHandler = new PlayerHandler();
-        this.playerX_TextField = React.createRef();
-        this.playerO_TextField = React.createRef();
-        this.state = initialState;
+        this.state = this.initialState;
     }
 
     render() {
-        const { player_x, player_o, fields, userDialogVisible, message, messageDialogVisible } = this.state;
+        const { players, fields, textFields, userDialogVisible, message, messageDialogVisible } = this.state;
+        const name = players.map(item => item.name);
+        const points = players.map(item => item.points);
 
         return (
             <>
-                <Toolbar title='TicTacToe' score={player_x.name + ' ' + player_x.points + ':' + player_o.points + ' ' + player_o.name} buttonIcon='delete' buttonOnClick={() => this.deleteData()} />
-                <Board>
-                    {fields.map((item, index) => <Field content={item} key={index} onClick={() => this.selectField(index)} />)}
-                </Board>
+                <Toolbar title='TicTacToe' score={`${name[Player.X]} ${points[Player.X]}:${points[Player.O]} ${name[Player.O]}`} buttonIcon='delete' buttonOnClick={this.deleteData} />
+                <Board>{fields.map(({ content, onClick }, index) => <Field key={index} content={content} onClick={onClick} />)}</Board>
                 <Dialog visible={userDialogVisible}>
-                    <TextField label='Player X' placeholder='Name' reference={this.playerX_TextField} />
-                    <TextField label='Player O' placeholder='Name' reference={this.playerO_TextField} />
-                    <Button text='save' onClick={() => this.savePlayers()} />
+                    <>{textFields.map(({ label, placeholder, value, isValid, onChange }, index) => <TextField key={index} label={label} placeholder={placeholder} value={value} isValid={isValid} onChange={onChange} />)}</>
+                    <Button text='save' onClick={this.savePlayers} />
                 </Dialog>
                 <Dialog visible={messageDialogVisible}>
                     <Title text={message} />
-                    <Button text='restart' onClick={() => this.restart()} />
+                    <Button text='restart' onClick={this.restart} />
                 </Dialog>
             </>
         );
     }
 
     componentDidMount() {
-        if (this.playerHandler.load(PLAYER.PLAYER_X) !== null && this.playerHandler.load(PLAYER.PLAYER_O) !== null) {
-            this.displayPlayers();
-        }
+        /* This function has to be called here because it calles setState() which would have no effect in the constructor. */
+        this.verifyPLayers();
     }
 
-    savePlayers() {
-        let countEmptyFields = 0;
-
-        countEmptyFields += this.textFieldIsEmpty(this.playerX_TextField.current);
-        countEmptyFields += this.textFieldIsEmpty(this.playerO_TextField.current);
-
-        if (countEmptyFields > 0) {
-            return;
+    verifyPLayers() {
+        for (let i = 0; i < this.state.players.length; i++) {
+            if (this.playerHandler.load(i) === null) {
+                return;
+            }
         }
-
-        this.playerHandler.save(PLAYER.PLAYER_X, new Player(this.playerX_TextField.current.value));
-        this.playerHandler.save(PLAYER.PLAYER_O, new Player(this.playerO_TextField.current.value));
 
         this.displayPlayers();
     }
 
-    displayPlayers() {
-        this.setState({
-            player_x: this.playerHandler.load(PLAYER.PLAYER_X),
-            player_o: this.playerHandler.load(PLAYER.PLAYER_O),
-            userDialogVisible: false
-        });
-    }
+    savePlayers = () => {
+        const textFields = [...this.state.textFields];
+        let noEmptyTextFields = true;
 
-    selectField(index: number) {
-        const FIELDS = this.state.fields.slice();
-        let currentPlayer: PLAYER;
+        for (let item of textFields) {
+            if (this.isEmpty(item.value)) {
+                item.isValid = false;
+                noEmptyTextFields = false;
+            } else {
+                item.isValid = true;
+            }
+        }
 
-        if (!this.isEmpty(FIELDS[index])) {
+        if (!noEmptyTextFields) {
+            this.setState({
+                textFields
+            });
+
             return;
         }
 
-        if (this.clicks % 2 === 0) {
-            FIELDS[index] = 'X';
-            currentPlayer = PLAYER.PLAYER_X;
+        textFields.forEach(({ value }, index) => this.playerHandler.save(index, new Player(value)));
+        this.displayPlayers();
+    }
+
+    selectField(index: number) {
+        const COMBINATIONS_TO_WIN_THE_GAME = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+        const currentPlayer = this.clicks % this.state.players.length;
+        const fields = [...this.state.fields];
+
+        if (!this.isEmpty(fields[index].content)) {
+            return;
         } else {
-            FIELDS[index] = 'O';
-            currentPlayer = PLAYER.PLAYER_O;
+            fields[index].content = (currentPlayer === Player.X ? 'X' : 'O');
+
+            this.setState({
+                fields
+            });
         }
 
-        this.setState({
-            fields: FIELDS
-        });
+        for (const item of COMBINATIONS_TO_WIN_THE_GAME) {
+            const field = (index: number) => fields[item[index]].content;
+            const fieldsAreEqual = (index1: number, index2: number) => field(index1) === field(index2);
 
-        for (const ITEM of [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]]) {
-            if (!this.isEmpty(FIELDS[ITEM[0]]) && FIELDS[ITEM[0]] === FIELDS[ITEM[1]] && FIELDS[ITEM[1]] === FIELDS[ITEM[2]]) {
+            if (!this.isEmpty(field(0)) && fieldsAreEqual(0, 1) && fieldsAreEqual(1, 2)) {
                 this.displayWinner(currentPlayer);
                 return;
             }
         }
 
-        if (this.checkIfDraw(FIELDS)) {
+        if (this.checkIfDraw(fields)) {
             this.displayMessage('Unentschieden!');
             return;
         }
@@ -130,39 +119,44 @@ class App extends PureComponent<{}, State> {
         this.clicks++;
     }
 
-    displayWinner(playerKey: PLAYER) {
-        const player = this.playerHandler.load(playerKey);
+    displayWinner(id: number) {
+        const player = this.playerHandler.load(id);
 
         player.points++;
-        this.playerHandler.save(playerKey, player);
+        this.playerHandler.save(id, player);
 
         this.displayMessage(player.name + ' hat gewonnen!');
         this.displayPlayers();
     }
 
-    displayMessage(text: string) {
+    displayMessage(message: string) {
         this.setState({
-            message: text,
+            message,
             messageDialogVisible: true
         });
     }
 
-    checkIfDraw(fields: string[]): boolean {
-        let noEmptyFields = true;
-
-        fields.forEach((item: string) => {
-            if (this.isEmpty(item)) {
-                noEmptyFields = false;
-            }
+    displayPlayers() {
+        this.setState({
+            players: Array(this.state.players.length).fill('').map(({ }, index) => this.playerHandler.load(index)),
+            userDialogVisible: false
         });
-
-        return noEmptyFields;
     }
 
-    deleteData() {
-        Object.values(PLAYER).forEach((key: PLAYER) => {
-            this.playerHandler.delete(key);
-        });
+    checkIfDraw(fields: State['fields']): boolean {
+        for (const item of fields) {
+            if (this.isEmpty(item.content)) {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
+    deleteData = () => {
+        for (let i = 0; i < this.state.players.length; i++) {
+            this.playerHandler.delete(i);
+        }
 
         this.restart();
     }
@@ -171,22 +165,43 @@ class App extends PureComponent<{}, State> {
         return item.trim() === '';
     }
 
-    textFieldIsEmpty(textField: HTMLInputElement): number {
-        if (this.isEmpty(textField.value)) {
-            textField.classList.add('empty');
-            return 1;
-        } else {
-            textField.classList.remove('empty');
-            return 0;
-        }
+    onChange(index: number, event: React.ChangeEvent<HTMLInputElement>) {
+        const textFields = [...this.state.textFields];
+        textFields[index].value = event.target.value;
+
+        this.setState({
+            textFields
+        });
     }
 
-    restart() {
-        this.setState(initialState);
-        this.componentDidMount();
+    restart = () => {
+        this.setState(this.initialState);
+        this.verifyPLayers();
 
         this.clicks = 0;
     }
+
+    get initialState(): State {
+        const PLAYERS = ['X', 'O'];
+
+        return {
+            players: PLAYERS.map(item => new Player(item)),
+            fields: Array(9).fill('').map(({ }, index) => ({
+                content: '',
+                onClick: this.selectField.bind(this, index)
+            })),
+            textFields: PLAYERS.map((item, index) => ({
+                label: 'Spieler ' + item,
+                placeholder: 'Name',
+                value: '',
+                isValid: true,
+                onChange: this.onChange.bind(this, index)
+            })),
+            userDialogVisible: true,
+            message: '',
+            messageDialogVisible: false
+        }
+    };
 }
 
 ReactDOM.render(<App />, document.getElementById("root"))

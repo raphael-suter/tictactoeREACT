@@ -1,19 +1,12 @@
 import React from 'react';
 import './index.scss';
+import Props from './Props';
 
-interface Props {
-  visible: boolean;
-  children: JSX.Element[];
-}
-
-const Dialog = ({ visible, children }: Props) => (
+export default ({ visible, children }: Props) => (
+  /* The parent div is used to center the article vertically and horizontally. */
   <div className='dialog' style={{ visibility: visible ? 'visible' : 'hidden' }}>
-    <form>
+    <article>
       {children}
-    </form>
+    </article>
   </div>
 );
-
-export { TextField } from './TextField';
-export { Button } from './Button';
-export default Dialog;

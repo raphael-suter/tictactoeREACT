@@ -1,15 +1,10 @@
 import React from 'react';
 import './index.scss';
+import Props from './Props';
 
-interface Props {
-  label: String;
-  placeholder: string;
-  reference: React.RefObject<HTMLInputElement>;
-}
-
-export const TextField = ({ label, placeholder, reference }: Props) => (
+export default ({ label, placeholder, value, isValid, onChange }: Props) => (
   <label className='textfield'>
     {label}
-    <input type='text' placeholder={placeholder} ref={reference} />
+    <input className={isValid ? '' : 'empty'} type='text' placeholder={placeholder} value={value} onChange={onChange} />
   </label>
 );

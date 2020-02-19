@@ -1,11 +1,7 @@
 import React from 'react';
 import './index.scss';
+import Props from './Props';
 
-interface Props {
-  text: string;
-  onClick: Function;
-}
-
-export const Button = ({ text, onClick }: Props) => (
-  <input type='button' className='button' value={text} onClick={() => onClick()} />
+export default ({ text, onClick }: Props) => (
+  <button className='button' onClick={onClick}>{text}</button>
 );

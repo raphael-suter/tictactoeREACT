@@ -6,8 +6,8 @@
 
   .grid {
     @include card;
-    display: flex;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
     animation: fade_in_animation 0.5s linear;
   }
 }
