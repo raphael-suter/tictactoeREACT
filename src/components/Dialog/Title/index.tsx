@@ -1,10 +1,7 @@
 import React from 'react';
 import './index.scss';
+import Props from './Props';
 
-interface Props {
-  text: string;
-}
-
-export const Title = ({ text }: Props) => (
-  <span className='title'>{text}</span>
+export default ({ text }: Props) => (
+  <h1 className='title'>{text}</h1>
 );

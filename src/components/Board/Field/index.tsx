@@ -1,13 +1,9 @@
 import React from 'react';
 import './index.scss';
+import Props from './Props';
 
-interface Props {
-  content: string;
-  onClick: Function;
-}
-
-export const Field = ({ content, onClick }: Props) => (
+export default ({ content, onClick }: Props) => (
   <div className='field'>
-    <button onClick={() => onClick()}>{content}</button>
+    <button onClick={onClick}>{content}</button>
   </div>
 );
