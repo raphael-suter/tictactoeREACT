@@ -22,21 +22,9 @@
 
   div {
     flex: 1;
+    display: flex;
+    justify-content: end;
     padding: 0.8rem 1.2rem;
-
-    button {
-      margin-left: auto;
-      display: flex;
-      align-items: center;
-      background: $mainColor;
-      border: none;
-      cursor: pointer;
-
-      span {
-        font-size: 24px;
-        color: $lightColor;
-      }
-    }
   }
 }
 

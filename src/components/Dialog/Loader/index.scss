@@ -1,0 +1,23 @@
+@import "../../../styles/colors.scss";
+
+$size: 50px;
+$thickness: 0.5rem;
+
+.dialog-loader {
+  width: $size;
+  height: $size;
+  margin: 0.6rem auto;
+  border: $thickness solid $mainColor;
+  border-top: $thickness solid $mediumColor;
+  border-radius: 50%;
+  animation: dialog-loader-spin 2s linear infinite;
+}
+
+@keyframes dialog-loader-spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

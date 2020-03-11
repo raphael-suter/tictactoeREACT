@@ -2,14 +2,12 @@ import React from 'react';
 import './index.scss';
 import Props from './Props';
 
-export default ({ title, score, buttonIcon, buttonOnClick }: Props) => (
+export default ({ title, score, children }: Props) => (
   <header className='toolbar'>
     <h1>{title}</h1>
     <p>{score}</p>
     <div>
-      <button onClick={buttonOnClick}>
-        <span className='material-icons'>{buttonIcon}</span>
-      </button>
+      {children}
     </div>
   </header>
 );

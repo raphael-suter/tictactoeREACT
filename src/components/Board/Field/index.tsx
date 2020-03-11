@@ -3,7 +3,7 @@ import './index.scss';
 import Props from './Props';
 
 export default ({ content, onClick }: Props) => (
-  <div className='field'>
+  <div className='board-field'>
     <button onClick={onClick}>{content}</button>
   </div>
 );

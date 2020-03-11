@@ -6,6 +6,7 @@ export default interface State {
   players: Player[];
   fields: FieldProps[];
   textFields: TextFieldProps[];
+  loaderVisible: boolean;
   userDialogVisible: boolean;
   message: string;
   messageDialogVisible: boolean;

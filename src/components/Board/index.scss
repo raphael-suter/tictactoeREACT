@@ -8,16 +8,5 @@
     @include card;
     display: grid;
     grid-template-columns: 1fr 1fr 1fr;
-    animation: fade_in_animation 0.5s linear;
-  }
-}
-
-@keyframes fade_in_animation {
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
   }
 }

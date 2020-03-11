@@ -1,6 +1,6 @@
 @import "../../../styles/colors.scss";
 
-.textfield {
+.dialog-textfield {
   display: block;
   margin: 0.6rem;
   font-weight: bold;
@@ -13,7 +13,7 @@
     padding: 0.7rem;
     font-size: 12pt;
     border: 1px solid $mainColor;
-    border-radius: none;
+    border-radius: 0;
     box-sizing: border-box;
 
     &.empty {

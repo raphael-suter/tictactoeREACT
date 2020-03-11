@@ -1,0 +1,15 @@
+@import "../../../styles/colors.scss";
+
+.toolbar-button {
+  margin-left: 0.8rem;
+  display: flex;
+  align-items: center;
+  background: $mainColor;
+  border: none;
+  cursor: pointer;
+
+  span {
+    font-size: 24px;
+    color: $lightColor;
+  }
+}
