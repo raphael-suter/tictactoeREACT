@@ -1,6 +1,6 @@
 @import "../../../styles/colors.scss";
 
-.toolbar-button {
+.iconbutton {
   margin-left: 0.8rem;
   display: flex;
   align-items: center;
@@ -8,7 +8,7 @@
   border: none;
   cursor: pointer;
 
-  span {
+  &__icon {
     font-size: 24px;
     color: $lightColor;
   }

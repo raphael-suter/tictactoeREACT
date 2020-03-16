@@ -1,12 +1,12 @@
 @import "../../../styles/colors.scss";
 
-.dialog-textfield {
+.textfield {
   display: block;
   margin: 0.6rem;
   font-weight: bold;
   color: $darkColor;
 
-  input {
+  &__input {
     width: 100%;
     display: block;
     margin-top: 0.5rem;
@@ -16,7 +16,7 @@
     border-radius: 0;
     box-sizing: border-box;
 
-    &.empty {
+    &--empty {
       border-color: red;
     }
   }

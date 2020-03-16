@@ -2,5 +2,5 @@ import React from 'react';
 import './index.scss';
 
 export default () => (
-  <div className='dialog-loader'></div>
+  <div className='loader'></div>
 );

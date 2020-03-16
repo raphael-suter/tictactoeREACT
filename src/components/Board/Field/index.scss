@@ -1,6 +1,6 @@
 @import "../../../styles/colors.scss";
 
-.board-field {
+.field {
   margin: 0.3rem;
   position: relative;
 
@@ -10,7 +10,7 @@
     padding-bottom: 100%;
   }
 
-  button {
+  &__button {
     position: absolute;
     top: 0;
     bottom: 0;

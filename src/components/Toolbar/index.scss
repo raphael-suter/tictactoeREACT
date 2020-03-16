@@ -6,7 +6,7 @@
   background-color: $mainColor;
   box-shadow: 0 0 2px 0 $shadow;
 
-  h1 {
+  &__title {
     flex: 1;
     padding: 0.8rem 1.2rem;
     font-size: 24px;
@@ -14,13 +14,13 @@
     color: $lightColor;
   }
 
-  p {
+  &__score {
     font-size: 20px;
     font-weight: 700;
     color: $lightColor;
   }
 
-  div {
+  &__buttongroup {
     flex: 1;
     display: flex;
     justify-content: flex-end;
@@ -32,7 +32,7 @@
   .toolbar {
     flex-wrap: wrap;
 
-    p {
+    &__score {
       order: 1;
       flex-basis: 100%;
       padding: 0.6rem 1.5rem;

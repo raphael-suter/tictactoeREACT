@@ -9,7 +9,7 @@ import Loader from './components/Dialog/Loader';
 import TextField from './components/Dialog/TextField';
 import Title from './components/Dialog/Title';
 import Toolbar from './components/Toolbar';
-import ToolbarButton from './components/Toolbar/Button';
+import IconButton from './components/Toolbar/IconButton';
 import DataHandler from './DataHandler';
 import './index.scss';
 import Player from './Player';
@@ -35,7 +35,7 @@ class App extends PureComponent<{}, State> {
         return (
             <>
                 <Toolbar title='TicTacToe' score={`${name[Player.X]} ${points[Player.X]}:${points[Player.O]} ${name[Player.O]}`}>
-                    <ToolbarButton icon='delete' onClick={this.deleteData} />
+                    <IconButton icon='delete' onClick={this.deleteData} />
                 </Toolbar>
                 <Board>{fields.map(({ content, onClick }, index) => <Field key={index} content={content} onClick={onClick} />)}</Board>
                 {

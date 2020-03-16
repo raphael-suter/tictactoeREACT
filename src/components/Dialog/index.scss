@@ -13,7 +13,7 @@
   padding: 1.2rem;
   background: $shadow;
 
-  article {
+  &__card {
     @include card;
     flex: 1;
   }
