@@ -4,6 +4,6 @@ import Props from './Props';
 
 export default ({ content, onClick }: Props) => (
   <div className='board-field'>
-    <button onClick={onClick}>{content}</button>
+    <button onClick={onClick} aria-label='field'>{content}</button>
   </div>
 );
