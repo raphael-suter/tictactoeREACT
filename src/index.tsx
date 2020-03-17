@@ -74,7 +74,7 @@ class App extends PureComponent<{}, State> {
                 if (player === null) {
                     this.setState({
                         loaderVisible: false,
-                        userDialogVisible: true
+                        userDialogVisible: !this.state.messageDialogVisible && true
                     });
                 } else {
                     id++;
@@ -167,7 +167,9 @@ class App extends PureComponent<{}, State> {
     displayMessage = (message: string) => {
         this.setState({
             message,
-            messageDialogVisible: true
+            messageDialogVisible: true,
+            loaderVisible: false,
+            userDialogVisible: false
         });
     }
 
@@ -182,11 +184,11 @@ class App extends PureComponent<{}, State> {
     }
 
     deleteData = (): void => {
+        this.restart();
+
         for (let index = 0, max = this.state.players.length; index < max; index++) {
             this.dataHandler.deletePlayer(index);
         }
-
-        this.restart();
     }
 
     isEmpty(item: string): boolean {
