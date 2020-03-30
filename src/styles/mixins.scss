@@ -1,9 +1,0 @@
-@import "./colors.scss";
-
-@mixin card {
-  max-width: 500px;
-  margin: auto;
-  padding: 0.6rem;
-  box-shadow: 0 0 2px 0 $shadow;
-  background: $lightColor;
-}

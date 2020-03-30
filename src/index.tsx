@@ -1,6 +1,7 @@
 import 'material-design-icons/iconfont/material-icons.css';
 import React, { PureComponent } from 'react';
 import ReactDOM from 'react-dom';
+import { ThemeProvider } from 'styled-components';
 import Board from './components/Board';
 import Field from './components/Board/Field';
 import Dialog from './components/Dialog';
@@ -10,10 +11,12 @@ import TextField from './components/Dialog/TextField';
 import Title from './components/Dialog/Title';
 import Toolbar from './components/Toolbar';
 import IconButton from './components/Toolbar/IconButton';
-import DataHandler from './DataHandler';
-import './index.scss';
-import Player from './Player';
+import DataHandler from './model/DataHandler';
+import Player from './model/Player';
 import State from './State';
+import DarkTheme from './styles/DarkTheme';
+import GlobalStyle from './styles/GlobalStyle';
+import LightTheme from './styles/LightTheme';
 
 class App extends PureComponent<{}, State> {
     private dataHandler: DataHandler;
@@ -28,13 +31,15 @@ class App extends PureComponent<{}, State> {
     }
 
     render() {
-        const { players, fields, textFields, loaderVisible, userDialogVisible, message, messageDialogVisible } = this.state;
+        const { players, fields, textFields, loaderVisible, userDialogVisible, message, messageDialogVisible, darkMode } = this.state;
         const name = players.map(item => item.name);
         const points = players.map(item => item.points);
 
         return (
-            <>
+            <ThemeProvider theme={darkMode ? DarkTheme : LightTheme}>
+                <GlobalStyle />
                 <Toolbar title='TicTacToe' score={`${name[Player.X]} ${points[Player.X]}:${points[Player.O]} ${name[Player.O]}`}>
+                    <IconButton icon='settings_brightness' onClick={this.switchTheme} />
                     <IconButton icon='delete' onClick={this.deleteData} />
                 </Toolbar>
                 <Board>{fields.map(({ content, onClick }, index) => <Field key={index} content={content} onClick={onClick} />)}</Board>
@@ -58,7 +63,7 @@ class App extends PureComponent<{}, State> {
                         <Loader />
                     </Dialog>
                 }
-            </>
+            </ThemeProvider>
         );
     }
 
@@ -173,6 +178,12 @@ class App extends PureComponent<{}, State> {
         });
     }
 
+    switchTheme = () => {
+        this.setState({
+            darkMode: !this.state.darkMode
+        });
+    }
+
     checkIfDraw(fields: State['fields']): boolean {
         for (const { content } of fields) {
             if (this.isEmpty(content)) {
@@ -238,7 +249,8 @@ class App extends PureComponent<{}, State> {
             loaderVisible: true,
             userDialogVisible: false,
             message: '',
-            messageDialogVisible: false
+            messageDialogVisible: false,
+            darkMode: (this.state != undefined ? this.state.darkMode : false)
         }
     };
 }

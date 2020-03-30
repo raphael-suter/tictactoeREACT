@@ -50,6 +50,7 @@ export default class DataHandler {
     return promise.catch(error => {
       this.notify('Ein unbekannter Fehler ist aufgetreten.');
       console.log(error);
+
       return null;
     });
   }
