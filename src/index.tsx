@@ -11,21 +11,21 @@ import TextField from './components/Dialog/TextField';
 import Title from './components/Dialog/Title';
 import Toolbar from './components/Toolbar';
 import IconButton from './components/Toolbar/IconButton';
-import DataHandler from './model/DataHandler';
 import Player from './model/Player';
+import PlayerHandler from './rest/PlayerHandler';
 import State from './State';
-import DarkTheme from './styles/DarkTheme';
+import DarkTheme from './styles/themes/DarkTheme';
 import GlobalStyle from './styles/GlobalStyle';
-import LightTheme from './styles/LightTheme';
+import LightTheme from './styles/themes/LightTheme';
 
 class App extends PureComponent<{}, State> {
-    private dataHandler: DataHandler;
+    private playerHandler: PlayerHandler;
     private moves: number;
 
     constructor(props: {}) {
         super(props);
 
-        this.dataHandler = new DataHandler(this.displayMessage);
+        this.playerHandler = new PlayerHandler(this.displayMessage);
         this.moves = 0;
         this.state = this.initialState;
     }
@@ -73,7 +73,7 @@ class App extends PureComponent<{}, State> {
     }
 
     verifyPlayers(id: number = 0, players: Player[] = []) {
-        this.dataHandler
+        this.playerHandler
             .loadPlayer(id)
             .then((player) => {
                 if (player === null) {
@@ -117,7 +117,7 @@ class App extends PureComponent<{}, State> {
                 const player = new Player(name);
 
                 players.push(player);
-                this.dataHandler.savePlayer(index, player)
+                this.playerHandler.savePlayer(index, player)
             });
 
             this.setState({
@@ -163,7 +163,7 @@ class App extends PureComponent<{}, State> {
         const players = [...this.state.players];
         players[id].points++;
 
-        this.dataHandler.savePlayer(id, players[id]);
+        this.playerHandler.savePlayer(id, players[id]);
         this.setState({ players });
 
         this.displayMessage(players[id].name + ' hat gewonnen!');
@@ -198,7 +198,7 @@ class App extends PureComponent<{}, State> {
         this.restart();
 
         for (let index = 0, max = this.state.players.length; index < max; index++) {
-            this.dataHandler.deletePlayer(index);
+            this.playerHandler.deletePlayer(index);
         }
     }
 

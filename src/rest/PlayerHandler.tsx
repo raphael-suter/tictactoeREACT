@@ -1,6 +1,6 @@
-import Player from './Player';
+import Player from '../model/Player';
 
-export default class DataHandler {
+export default class PlayerHandler {
   private groupId: string;
   private notify: (message: string) => void;
 
