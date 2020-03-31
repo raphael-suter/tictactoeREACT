@@ -1,4 +1,5 @@
 import Player from '../model/Player';
+import API_Endpoint from './API_Endpoint';
 
 export default class PlayerHandler {
   private groupId: string;
@@ -11,7 +12,7 @@ export default class PlayerHandler {
 
   public savePlayer(id: number, player: Player): void {
     this.try(
-      fetch(`http://localhost:8000/${this.groupId}/${id}`, {
+      fetch(`${API_Endpoint}/${this.groupId}/${id}`, {
         method: 'PUT',
         body: JSON.stringify(player),
         headers: {
@@ -34,7 +35,7 @@ export default class PlayerHandler {
     } else {
       promise =
         this.try(
-          fetch(`http://localhost:8000/${this.groupId}/${id}`)
+          fetch(`${API_Endpoint}/${this.groupId}/${id}`)
             .then(response => {
               return response.json();
             })
@@ -46,7 +47,7 @@ export default class PlayerHandler {
 
   public deletePlayer(id: number): void {
     if (this.groupId !== 'new') {
-      this.try(fetch(`http://localhost:8000/${this.groupId}/${id}`, {
+      this.try(fetch(`${API_Endpoint}/${this.groupId}/${id}`, {
         method: 'DELETE'
       }));
     }
