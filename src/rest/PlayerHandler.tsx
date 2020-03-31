@@ -10,10 +10,14 @@ export default class PlayerHandler {
   }
 
   public savePlayer(id: number, player: Player): void {
-    const { name, points } = player;
-
     this.try(
-      fetch(`http://localhost:8000/savePlayer/${this.groupId}/${id}/${name}/${points}`)
+      fetch(`http://localhost:8000/${this.groupId}/${id}`, {
+        method: 'PUT',
+        body: JSON.stringify(player),
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8'
+        }
+      })
         .then(response => response.json())
         .then(groupId => {
           this.groupId = groupId;
@@ -30,7 +34,7 @@ export default class PlayerHandler {
     } else {
       promise =
         this.try(
-          fetch(`http://localhost:8000/loadPlayer/${this.groupId}/${id}`)
+          fetch(`http://localhost:8000/${this.groupId}/${id}`)
             .then(response => {
               return response.json();
             })
@@ -42,7 +46,9 @@ export default class PlayerHandler {
 
   public deletePlayer(id: number): void {
     if (this.groupId !== 'new') {
-      this.try(fetch(`http://localhost:8000/deletePlayer/${this.groupId}/${id}`));
+      this.try(fetch(`http://localhost:8000/${this.groupId}/${id}`, {
+        method: 'DELETE'
+      }));
     }
   }
 
