@@ -1,6 +1,6 @@
-import FieldProps from './components/Board/Field/Props';
-import TextFieldProps from './components/Dialog/TextField/Props';
-import Player from './model/Player';
+import FieldProps from '../Board/Field/Props';
+import TextFieldProps from '../Dialog/TextField/Props';
+import Player from '../../model/Player';
 
 export default interface State {
   players: Player[];

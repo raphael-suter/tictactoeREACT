@@ -1,5 +1,5 @@
 import { createGlobalStyle } from 'styled-components';
-import Theme from './themes/Theme';
+import Theme from './Theme';
 
 export default createGlobalStyle<{ theme: Theme }>`
   * {

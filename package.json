@@ -5,6 +5,7 @@
   "main": "index.tsx",
   "scripts": {
     "start": "webpack-dev-server --hot --open",
+    "test": "jest --watch",
     "build": "webpack --mode production",
     "deploy": "npm run-script build && git checkout gh-pages && cp -a build/. ./ && git add . && git commit -m Updates && git push origin gh-pages && git checkout master"
   },
@@ -19,6 +20,15 @@
     "url": "https://github.com/raphael-suter/tictactoeREACT/issues"
   },
   "homepage": "https://github.com/raphael-suter/tictactoeREACT#readme",
+  "jest": {
+    "transform": {
+      "^.+\\.(ts|js)x?$": "ts-jest"
+    },
+    "moduleNameMapper": {
+      "\\.(jpg|jpeg|png|gif|eot|otf|webp|svg|ttf|woff|woff2|mp4|webm|wav|mp3|m4a|aac|oga)$": "<rootDir>/__mocks__/fileMock.js",
+      "\\.(css|less)$": "identity-obj-proxy"
+    }
+  },
   "devDependencies": {
     "@babel/core": "^7.8.4",
     "@babel/preset-env": "^7.8.4",
@@ -28,9 +38,14 @@
     "babel-loader": "^8.0.6",
     "clean-webpack-plugin": "^3.0.0",
     "css-loader": "^3.4.2",
+    "enzyme": "^3.11.0",
+    "enzyme-adapter-react-16": "^1.15.2",
     "file-loader": "^5.0.2",
     "html-webpack-plugin": "^3.2.0",
+    "identity-obj-proxy": "^3.0.0",
     "install": "^0.13.0",
+    "jest": "^25.2.7",
+    "jest-enzyme": "^7.1.2",
     "node-sass": "^4.13.1",
     "sass-loader": "^8.0.2",
     "source-map-loader": "^0.2.4",
@@ -42,10 +57,13 @@
     "webpack-dev-server": "^3.10.3"
   },
   "dependencies": {
+    "@types/enzyme-adapter-react-16": "^1.0.6",
+    "@types/jest": "^25.2.1",
     "@types/styled-components": "^5.0.1",
     "material-design-icons": "^3.0.1",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "styled-components": "^5.0.1"
+    "styled-components": "^5.0.1",
+    "ts-jest": "^25.3.1"
   }
 }
