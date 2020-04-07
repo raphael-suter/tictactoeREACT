@@ -8,7 +8,6 @@ const setup = (onChange: () => void) => shallow(<TextField label='text' placehol
 describe('TextField', () => {
   test('Renders correctly.', () => {
     const wrapper = setup(null);
-    expect(toJson(wrapper)).toMatchSnapshot();
   });
 
   test('Fires change events.', () => {

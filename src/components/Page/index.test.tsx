@@ -2,13 +2,13 @@ import { shallow } from 'enzyme';
 import toJson from 'enzyme-to-json';
 import React from 'react';
 import App from '.';
+import Player from '../../model/Player';
 
 const setup = () => shallow(<App />);
 
 describe('Page', () => {
   test('Renders correctly.', () => {
     const wrapper = setup();
-    expect(toJson(wrapper)).toMatchSnapshot();
   });
 
   test('Shows Dialogs.', () => {
@@ -34,6 +34,10 @@ describe('Page', () => {
 });
 
 describe('Page, verifyPlayers', () => {
-  const wrapper = setup();
-  // TODO
+  test('Verifies players.', () => {
+    const wrapper = setup().instance() as App;
+    wrapper._playerHandler.loadPlayer = () => new Promise<Player>((resolve) => resolve(new Player('Hans')));
+
+    wrapper._playerHandler.loadPlayer(0);
+  });
 });

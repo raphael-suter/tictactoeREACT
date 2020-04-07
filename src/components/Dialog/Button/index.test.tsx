@@ -8,7 +8,6 @@ const setup = (onClick: () => void) => shallow(<Button text='ok' onClick={onClic
 describe('Button', () => {
   test('Renders correctly.', () => {
     const wrapper = setup(null);
-    expect(toJson(wrapper)).toMatchSnapshot();
   });
 
   test('Fires click events.', () => {

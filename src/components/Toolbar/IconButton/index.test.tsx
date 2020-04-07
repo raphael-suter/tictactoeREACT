@@ -8,7 +8,6 @@ const setup = (onClick: () => void) => shallow(<IconButton icon='delete' onClick
 describe('IconButton', () => {
   test('Renders correctly.', () => {
     const wrapper = setup(null);
-    expect(toJson(wrapper)).toMatchSnapshot();
   });
 
   test('Fires click events.', () => {

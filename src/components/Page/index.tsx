@@ -18,18 +18,18 @@ import IconButton from '../Toolbar/IconButton';
 import State from './State';
 
 export default class App extends PureComponent<{}, State> {
-  private playerHandler: PlayerHandler;
-  private moves: number;
+  _playerHandler: PlayerHandler;
+  _moves: number;
 
-  public constructor(props: {}) {
+  constructor(props: {}) {
     super(props);
 
-    this.playerHandler = new PlayerHandler(this.displayMessage);
-    this.moves = 0;
-    this.state = this.initialState;
+    this._playerHandler = new PlayerHandler(this._displayMessage);
+    this._moves = 0;
+    this.state = this._initialState;
   }
 
-  public render() {
+  render() {
     const { players, fields, textFields, loaderVisible, userDialogVisible, message, messageDialogVisible, darkMode } = this.state;
     const name = players.map(item => item.name);
     const points = players.map(item => item.points);
@@ -38,22 +38,22 @@ export default class App extends PureComponent<{}, State> {
       <ThemeProvider theme={darkMode ? DarkTheme : LightTheme}>
         <GlobalStyle />
         <Toolbar title='TicTacToe' score={`${name[Player.X]} ${points[Player.X]}:${points[Player.O]} ${name[Player.O]}`}>
-          <IconButton icon='settings_brightness' onClick={this.switchTheme} />
-          <IconButton icon='delete' onClick={this.deleteData} />
+          <IconButton icon='settings_brightness' onClick={this._switchTheme} />
+          <IconButton icon='delete' onClick={this._deleteData} />
         </Toolbar>
         <Board>{fields.map(({ content, onClick }, index) => <Field key={index} content={content} onClick={onClick} />)}</Board>
         {
           userDialogVisible &&
           <Dialog>
             <>{textFields.map(({ label, placeholder, value, isValid, onChange }, index) => <TextField key={index} label={label} placeholder={placeholder} value={value} isValid={isValid} onChange={onChange} />)}</>
-            <DialogButton text='save' onClick={this.savePlayers} />
+            <DialogButton text='save' onClick={this._savePlayers} />
           </Dialog>
         }
         {
           messageDialogVisible &&
           <Dialog>
             <Title text={message} />
-            <DialogButton text='restart' onClick={this.restart} />
+            <DialogButton text='restart' onClick={this._restart} />
           </Dialog>
         }
         {
@@ -66,13 +66,13 @@ export default class App extends PureComponent<{}, State> {
     );
   }
 
-  public componentDidMount() {
+  componentDidMount() {
     /* This function has to be called here because it calls setState() which would have no effect in the constructor. */
-    this.verifyPlayers();
+    this._verifyPlayers();
   }
 
-  private verifyPlayers(id: number = 0, players: Player[] = []) {
-    this.playerHandler
+  _verifyPlayers(id: number = 0, players: Player[] = []) {
+    this._playerHandler
       .loadPlayer(id)
       .then((player) => {
         if (player === null) {
@@ -90,18 +90,18 @@ export default class App extends PureComponent<{}, State> {
               loaderVisible: false
             });
           } else {
-            this.verifyPlayers(id, players);
+            this._verifyPlayers(id, players);
           }
         }
       });
   }
 
-  private savePlayers = () => {
+  _savePlayers = () => {
     const textFields = [...this.state.textFields];
     let noEmptyTextFields = true;
 
     for (let item of textFields) {
-      if (this.isEmpty(item.value)) {
+      if (this._isEmpty(item.value)) {
         item.isValid = false;
         noEmptyTextFields = false;
       } else {
@@ -116,7 +116,7 @@ export default class App extends PureComponent<{}, State> {
         const player = new Player(name);
 
         players.push(player);
-        this.playerHandler.savePlayer(index, player)
+        this._playerHandler.savePlayer(index, player)
       });
 
       this.setState({
@@ -128,12 +128,12 @@ export default class App extends PureComponent<{}, State> {
     }
   }
 
-  private selectField(index: number) {
+  _selectField(index: number) {
     const COMBINATIONS_TO_WIN_THE_GAME = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
-    const currentPlayer = this.moves % this.state.players.length;
+    const currentPlayer = this._moves % this.state.players.length;
     const fields = [...this.state.fields];
 
-    if (!this.isEmpty(fields[index].content)) {
+    if (!this._isEmpty(fields[index].content)) {
       return;
     }
 
@@ -144,31 +144,31 @@ export default class App extends PureComponent<{}, State> {
       const field = (index: number) => fields[combination[index]].content;
       const fieldsAreEqual = (index1: number, index2: number) => field(index1) === field(index2);
 
-      if (!this.isEmpty(field(0)) && fieldsAreEqual(0, 1) && fieldsAreEqual(1, 2)) {
-        this.displayWinner(currentPlayer);
+      if (!this._isEmpty(field(0)) && fieldsAreEqual(0, 1) && fieldsAreEqual(1, 2)) {
+        this._displayWinner(currentPlayer);
         return;
       }
     }
 
-    if (this.checkIfDraw(fields)) {
-      this.displayMessage('Unentschieden!');
+    if (this._checkIfDraw(fields)) {
+      this._displayMessage('Unentschieden!');
       return;
     }
 
-    this.moves++;
+    this._moves++;
   }
 
-  private displayWinner(id: number) {
+  _displayWinner(id: number) {
     const players = [...this.state.players];
     players[id].points++;
 
-    this.playerHandler.savePlayer(id, players[id]);
+    this._playerHandler.savePlayer(id, players[id]);
     this.setState({ players });
 
-    this.displayMessage(players[id].name + ' hat gewonnen!');
+    this._displayMessage(players[id].name + ' hat gewonnen!');
   }
 
-  private displayMessage = (message: string) => {
+  _displayMessage = (message: string) => {
     this.setState({
       message,
       messageDialogVisible: true,
@@ -177,15 +177,15 @@ export default class App extends PureComponent<{}, State> {
     });
   }
 
-  private switchTheme = () => {
+  _switchTheme = () => {
     this.setState({
       darkMode: !this.state.darkMode
     });
   }
 
-  private checkIfDraw(fields: State['fields']): boolean {
+  _checkIfDraw(fields: State['fields']): boolean {
     for (const { content } of fields) {
-      if (this.isEmpty(content)) {
+      if (this._isEmpty(content)) {
         return false;
       }
     }
@@ -193,33 +193,33 @@ export default class App extends PureComponent<{}, State> {
     return true;
   }
 
-  private deleteData = (): void => {
-    this.restart();
+  _deleteData = (): void => {
+    this._restart();
 
     for (let index = 0, max = this.state.players.length; index < max; index++) {
-      this.playerHandler.deletePlayer(index);
+      this._playerHandler.deletePlayer(index);
     }
   }
 
-  private isEmpty(item: string): boolean {
+  _isEmpty(item: string): boolean {
     return item.trim() === '';
   }
 
-  private onChange(index: number, event: React.ChangeEvent<HTMLInputElement>): void {
+  _onChange(index: number, event: React.ChangeEvent<HTMLInputElement>): void {
     const textFields = [...this.state.textFields];
     textFields[index].value = event.target.value;
 
     this.setState({ textFields });
   }
 
-  private restart = (): void => {
-    this.moves = 0;
+  _restart = (): void => {
+    this._moves = 0;
 
-    this.setState(this.initialState);
-    this.verifyPlayers();
+    this.setState(this._initialState);
+    this._verifyPlayers();
   }
 
-  private get initialState(): State {
+  get _initialState(): State {
     const PLAYERS = ['X', 'O'];
     const FIELD_COUNT = 9;
 
@@ -229,7 +229,7 @@ export default class App extends PureComponent<{}, State> {
     for (let index = 0; index < FIELD_COUNT; index++) {
       fields[index] = {
         content: '',
-        onClick: this.selectField.bind(this, index)
+        onClick: this._selectField.bind(this, index)
       }
     }
 
@@ -238,7 +238,7 @@ export default class App extends PureComponent<{}, State> {
       placeholder: 'Name',
       value: '',
       isValid: true,
-      onChange: this.onChange.bind(this, index)
+      onChange: this._onChange.bind(this, index)
     }));
 
     return {
