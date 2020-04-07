@@ -1,0 +1,80 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Page Renders correctly. 1`] = `
+<ThemeProvider
+  theme={
+    Object {
+      "darkColor": "#000000",
+      "lightColor": "#ffffff",
+      "mainColor": "#000080",
+      "mediumColor": "#f5f5f5",
+      "shadowColor": "rgba(0, 0, 0, 0.3)",
+    }
+  }
+>
+  <Memo(GlobalStyleComponent) />
+  <Component
+    score="X 0:0 O"
+    title="TicTacToe"
+  >
+    <Component
+      icon="settings_brightness"
+      onClick={[Function]}
+    />
+    <Component
+      icon="delete"
+      onClick={[Function]}
+    />
+  </Component>
+  <Component>
+    <Component
+      content=""
+      key="0"
+      onClick={[Function]}
+    />
+    <Component
+      content=""
+      key="1"
+      onClick={[Function]}
+    />
+    <Component
+      content=""
+      key="2"
+      onClick={[Function]}
+    />
+    <Component
+      content=""
+      key="3"
+      onClick={[Function]}
+    />
+    <Component
+      content=""
+      key="4"
+      onClick={[Function]}
+    />
+    <Component
+      content=""
+      key="5"
+      onClick={[Function]}
+    />
+    <Component
+      content=""
+      key="6"
+      onClick={[Function]}
+    />
+    <Component
+      content=""
+      key="7"
+      onClick={[Function]}
+    />
+    <Component
+      content=""
+      key="8"
+      onClick={[Function]}
+    />
+  </Component>
+  <Component>
+    <Component />
+  </Component>
+</ThemeProvider>
+`;

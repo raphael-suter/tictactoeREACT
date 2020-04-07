@@ -1,0 +1,12 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Field Renders correctly. 1`] = `
+<styled.div>
+  <styled.button
+    aria-label="field"
+    onClick={null}
+  >
+    X
+  </styled.button>
+</styled.div>
+`;

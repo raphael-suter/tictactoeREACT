@@ -1,0 +1,3 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Title Renders correctly. 1`] = `<styled.h1 />`;

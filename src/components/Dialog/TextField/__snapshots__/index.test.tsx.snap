@@ -1,0 +1,14 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`TextField Renders correctly. 1`] = `
+<styled.label>
+  text
+  <styled.input
+    isValid={true}
+    onChange={null}
+    placeholder="text"
+    type="text"
+    value="text"
+  />
+</styled.label>
+`;

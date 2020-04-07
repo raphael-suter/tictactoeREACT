@@ -1,6 +1,11 @@
 import 'material-design-icons/iconfont/material-icons.css';
 import React, { PureComponent } from 'react';
 import { ThemeProvider } from 'styled-components';
+import Player from '../../model/Player';
+import PlayerHandler from '../../rest/PlayerHandler';
+import DarkTheme from '../../themes/DarkTheme';
+import GlobalStyle from '../../themes/GlobalStyle';
+import LightTheme from '../../themes/LightTheme';
 import Board from '../Board';
 import Field from '../Board/Field';
 import Dialog from '../Dialog';
@@ -10,18 +15,13 @@ import TextField from '../Dialog/TextField';
 import Title from '../Dialog/Title';
 import Toolbar from '../Toolbar';
 import IconButton from '../Toolbar/IconButton';
-import Player from '../../model/Player';
-import PlayerHandler from '../../rest/PlayerHandler';
 import State from './State';
-import GlobalStyle from '../../themes/GlobalStyle';
-import DarkTheme from '../../themes/DarkTheme';
-import LightTheme from '../../themes/LightTheme';
 
 export default class App extends PureComponent<{}, State> {
   private playerHandler: PlayerHandler;
   private moves: number;
 
-  constructor(props: {}) {
+  public constructor(props: {}) {
     super(props);
 
     this.playerHandler = new PlayerHandler(this.displayMessage);
@@ -29,7 +29,7 @@ export default class App extends PureComponent<{}, State> {
     this.state = this.initialState;
   }
 
-  render() {
+  public render() {
     const { players, fields, textFields, loaderVisible, userDialogVisible, message, messageDialogVisible, darkMode } = this.state;
     const name = players.map(item => item.name);
     const points = players.map(item => item.points);
@@ -66,12 +66,12 @@ export default class App extends PureComponent<{}, State> {
     );
   }
 
-  componentDidMount() {
+  public componentDidMount() {
     /* This function has to be called here because it calls setState() which would have no effect in the constructor. */
     this.verifyPlayers();
   }
 
-  verifyPlayers(id: number = 0, players: Player[] = []) {
+  private verifyPlayers(id: number = 0, players: Player[] = []) {
     this.playerHandler
       .loadPlayer(id)
       .then((player) => {
@@ -96,7 +96,7 @@ export default class App extends PureComponent<{}, State> {
       });
   }
 
-  savePlayers = () => {
+  private savePlayers = () => {
     const textFields = [...this.state.textFields];
     let noEmptyTextFields = true;
 
@@ -128,7 +128,7 @@ export default class App extends PureComponent<{}, State> {
     }
   }
 
-  selectField(index: number) {
+  private selectField(index: number) {
     const COMBINATIONS_TO_WIN_THE_GAME = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
     const currentPlayer = this.moves % this.state.players.length;
     const fields = [...this.state.fields];
@@ -158,7 +158,7 @@ export default class App extends PureComponent<{}, State> {
     this.moves++;
   }
 
-  displayWinner(id: number) {
+  private displayWinner(id: number) {
     const players = [...this.state.players];
     players[id].points++;
 
@@ -168,7 +168,7 @@ export default class App extends PureComponent<{}, State> {
     this.displayMessage(players[id].name + ' hat gewonnen!');
   }
 
-  displayMessage = (message: string) => {
+  private displayMessage = (message: string) => {
     this.setState({
       message,
       messageDialogVisible: true,
@@ -177,13 +177,13 @@ export default class App extends PureComponent<{}, State> {
     });
   }
 
-  switchTheme = () => {
+  private switchTheme = () => {
     this.setState({
       darkMode: !this.state.darkMode
     });
   }
 
-  checkIfDraw(fields: State['fields']): boolean {
+  private checkIfDraw(fields: State['fields']): boolean {
     for (const { content } of fields) {
       if (this.isEmpty(content)) {
         return false;
@@ -193,7 +193,7 @@ export default class App extends PureComponent<{}, State> {
     return true;
   }
 
-  deleteData = (): void => {
+  private deleteData = (): void => {
     this.restart();
 
     for (let index = 0, max = this.state.players.length; index < max; index++) {
@@ -201,25 +201,25 @@ export default class App extends PureComponent<{}, State> {
     }
   }
 
-  isEmpty(item: string): boolean {
+  private isEmpty(item: string): boolean {
     return item.trim() === '';
   }
 
-  onChange(index: number, event: React.ChangeEvent<HTMLInputElement>): void {
+  private onChange(index: number, event: React.ChangeEvent<HTMLInputElement>): void {
     const textFields = [...this.state.textFields];
     textFields[index].value = event.target.value;
 
     this.setState({ textFields });
   }
 
-  restart = (): void => {
+  private restart = (): void => {
     this.moves = 0;
 
     this.setState(this.initialState);
     this.verifyPlayers();
   }
 
-  get initialState(): State {
+  private get initialState(): State {
     const PLAYERS = ['X', 'O'];
     const FIELD_COUNT = 9;
 
