@@ -1,18 +1,28 @@
 import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
 import React from 'react';
-import IconButton from '.';
+import Button from '.';
 
-const setup = (onClick: () => void) => shallow(<IconButton icon='delete' onClick={onClick} />);
+const setup = (icon: string, onClick: () => void) => shallow(<Button icon={icon} onClick={onClick} />);
 
 describe('IconButton', () => {
-  test('Renders correctly.', () => {
-    const wrapper = setup(null);
+  test('Renders without crashing.', () => {
+    const wrapper = setup(null, null);
+    expect(wrapper).toHaveLength(1);
   });
 
-  test('Fires click events.', () => {
+  test('Displays icon.', () => {
+    const expectedIcon = 'qwertz';
+    const wrapper = setup(expectedIcon, null);
+    const receivedIcon = wrapper.text();
+
+    expect(receivedIcon).toBe(expectedIcon);
+  });
+
+  test('Fires click event.', () => {
     const onClick = jasmine.createSpy();
-    setup(onClick).simulate('click');
+    const wrapper = setup(null, onClick);
+
+    wrapper.simulate('click');
 
     expect(onClick).toHaveBeenCalledTimes(1);
   });

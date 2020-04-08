@@ -1,18 +1,28 @@
 import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
 import React from 'react';
 import Button from '.';
 
-const setup = (onClick: () => void) => shallow(<Button text='ok' onClick={onClick} />);
+const setup = (text: string, onClick: () => void) => shallow(<Button text={text} onClick={onClick} />);
 
 describe('Button', () => {
-  test('Renders correctly.', () => {
-    const wrapper = setup(null);
+  test('Renders without crashing.', () => {
+    const wrapper = setup(null, null);
+    expect(wrapper).toHaveLength(1);
   });
 
-  test('Fires click events.', () => {
+  test('Displays text.', () => {
+    const expectedText = 'qwertz';
+    const wrapper = setup(expectedText, null);
+    const receivedText = wrapper.text();
+
+    expect(receivedText).toBe(expectedText);
+  });
+
+  test('Fires click event.', () => {
     const onClick = jasmine.createSpy();
-    setup(onClick).simulate('click');
+    const wrapper = setup(null, onClick);
+
+    wrapper.simulate('click');
 
     expect(onClick).toHaveBeenCalledTimes(1);
   });

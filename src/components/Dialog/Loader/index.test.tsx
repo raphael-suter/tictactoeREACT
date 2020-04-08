@@ -1,10 +1,10 @@
 import { shallow } from 'enzyme';
-import toJson from 'enzyme-to-json';
 import React from 'react';
 import Loader from '.';
 
 describe('Loader', () => {
-  test('Renders correctly.', () => {
+  test('Renders without crashing.', () => {
     const wrapper = shallow(<Loader />);
+    expect(wrapper).toHaveLength(1);
   });
 });
