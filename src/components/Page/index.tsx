@@ -17,7 +17,7 @@ import Toolbar from '../Toolbar';
 import IconButton from '../Toolbar/IconButton';
 import State from './State';
 
-export default class App extends PureComponent<{}, State> {
+export default class extends PureComponent<{}, State> {
   _playerHandler: PlayerHandler;
   _moves: number;
 

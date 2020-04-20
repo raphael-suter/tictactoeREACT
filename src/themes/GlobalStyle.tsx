@@ -1,7 +1,7 @@
 import { createGlobalStyle } from 'styled-components';
-import Theme from './Theme';
+import Template from './Template';
 
-export default createGlobalStyle<{ theme: Theme }>`
+export default createGlobalStyle<{ theme: Template }>`
   * {
     margin: 0;
     padding: 0;

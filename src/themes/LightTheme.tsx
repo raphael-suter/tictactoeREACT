@@ -1,6 +1,6 @@
-import Theme from "./Theme";
+import Template from "./Template";
 
-const LightTheme: Theme = {
+const LightTheme: Template = {
   mainColor: '#000080',
   lightColor: '#ffffff',
   mediumColor: '#f5f5f5',
