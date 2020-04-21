@@ -37,28 +37,28 @@ export default class extends PureComponent<{}, State> {
     return (
       <ThemeProvider theme={darkMode ? DarkTheme : LightTheme}>
         <GlobalStyle />
-        <Toolbar title='TicTacToe' score={`${name[Player.X]} ${points[Player.X]}:${points[Player.O]} ${name[Player.O]}`}>
-          <IconButton icon='settings_brightness' onClick={this._switchTheme} />
-          <IconButton icon='delete' onClick={this._deleteData} />
+        <Toolbar data-test='toolbar' title='TicTacToe' score={`${name[Player.X]} ${points[Player.X]}:${points[Player.O]} ${name[Player.O]}`}>
+          <IconButton data-test='themeButton' icon='settings_brightness' onClick={this._switchTheme} />
+          <IconButton data-test='deleteButton' icon='delete' onClick={this._deleteData} />
         </Toolbar>
-        <Board>{fields.map(({ content, onClick }, index) => <Field key={index} content={content} onClick={onClick} />)}</Board>
+        <Board data-test='board'>{fields.map(({ content, onClick }, index) => <Field key={index} content={content} onClick={onClick} />)}</Board>
         {
           userDialogVisible &&
-          <Dialog>
+          <Dialog data-test='UserDialog'>
             <>{textFields.map(({ label, placeholder, value, isValid, onChange }, index) => <TextField key={index} label={label} placeholder={placeholder} value={value} isValid={isValid} onChange={onChange} />)}</>
-            <DialogButton text='save' onClick={this._savePlayers} />
+            <DialogButton data-test='saveButton' text='save' onClick={this._savePlayers} />
           </Dialog>
         }
         {
           messageDialogVisible &&
-          <Dialog>
-            <Title text={message} />
-            <DialogButton text='restart' onClick={this._restart} />
+          <Dialog data-test='MessageDialog'>
+            <Title data-test='message' text={message} />
+            <DialogButton data-test='restartButton' text='restart' onClick={this._restart} />
           </Dialog>
         }
         {
           loaderVisible &&
-          <Dialog>
+          <Dialog data-test='LoaderDialog'>
             <Loader />
           </Dialog>
         }

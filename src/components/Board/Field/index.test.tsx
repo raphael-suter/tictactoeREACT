@@ -22,7 +22,7 @@ describe('Field', () => {
     const onClick = jasmine.createSpy();
     const wrapper = setup(null, onClick);
 
-    wrapper.childAt(0).simulate('click');
+    wrapper.find("[aria-label='field']").simulate('click');
 
     expect(onClick).toHaveBeenCalledTimes(1);
   });

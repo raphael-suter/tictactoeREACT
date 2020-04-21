@@ -45,7 +45,7 @@ const ButtonGroup = styled.div`
 
 export default ({ title, score, children }: Props) =>
   <Toolbar>
-    <Title>{title}</Title>
-    <Score>{score}</Score>
+    <Title data-test='title'>{title}</Title>
+    <Score data-test='score'>{score}</Score>
     <ButtonGroup>{children}</ButtonGroup>
   </Toolbar>;

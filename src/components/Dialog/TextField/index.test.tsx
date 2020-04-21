@@ -21,7 +21,7 @@ describe('TextField', () => {
   test('Displays placeholder.', () => {
     const expectedText = 'qwertz';
     const wrapper = setup(null, expectedText, null, null, null);
-    const receivedText = wrapper.childAt(0).props().placeholder;
+    const receivedText = wrapper.find("[type='text']").props().placeholder;
 
     expect(receivedText).toBe(expectedText);
   });
@@ -29,21 +29,21 @@ describe('TextField', () => {
   test('Displays value.', () => {
     const expectedText = 'qwertz';
     const wrapper = setup(null, null, expectedText, null, null);
-    const receivedText = wrapper.childAt(0).props().value;
+    const receivedText = wrapper.find("[type='text']").props().value;
 
     expect(receivedText).toBe(expectedText);
   });
 
   test('Displays if valid.', () => {
     const wrapper = setup(null, null, null, true, null);
-    const isValid = wrapper.childAt(0).props().isValid;
+    const isValid = wrapper.find("[type='text']").prop('isValid');
 
     expect(isValid).toBeTruthy();
   });
 
   test('Displays if invalid.', () => {
     const wrapper = setup(null, null, null, false, null);
-    const isValid = wrapper.childAt(0).props().isValid;
+    const isValid = wrapper.find("[type='text']").prop('isValid');
 
     expect(isValid).toBeFalsy();
   });
@@ -52,7 +52,7 @@ describe('TextField', () => {
     const onChange = jasmine.createSpy();
     const wrapper = setup(null, null, null, null, onChange);
 
-    wrapper.childAt(0).simulate('change');
+    wrapper.find("[type='text']").simulate('change');
 
     expect(onChange).toHaveBeenCalledTimes(1);
   });

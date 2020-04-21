@@ -13,7 +13,7 @@ describe('Dialog', () => {
   test('Displays title.', () => {
     const expectedText = 'qwertz';
     const wrapper = setup(expectedText, null, null);
-    const receivedText = wrapper.childAt(0).text();
+    const receivedText = wrapper.find("[data-test='title']").text();
 
     expect(receivedText).toBe(expectedText);
   });
@@ -21,7 +21,7 @@ describe('Dialog', () => {
   test('Displays score.', () => {
     const expectedText = 'qwertz';
     const wrapper = setup(null, expectedText, null);
-    const receivedText = wrapper.childAt(1).text();
+    const receivedText = wrapper.find("[data-test='score']").text();
 
     expect(receivedText).toBe(expectedText);
   });
