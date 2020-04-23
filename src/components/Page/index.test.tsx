@@ -1,4 +1,5 @@
 import { shallow } from 'enzyme';
+import JestMockPromise from 'jest-mock-promise';
 import React from 'react';
 import Page from '.';
 import Player from '../../model/Player';
@@ -220,28 +221,109 @@ describe('Page', () => {
 describe('Page, functions', () => {
   describe('componentDidMount', () => {
     test('Should call correct function.', () => {
+      const wrapper = setup();
+      const instance = wrapper.instance();
+
       spyOn(Page.prototype, '_verifyPlayers');
-      setup();
+      instance.componentDidMount();
 
       expect(Page.prototype._verifyPlayers).toHaveBeenCalledTimes(1);
     });
   });
 
   describe('_verifyPlayers', () => {
-    test('', () => {
-      /*const wrapper = setup();
+    test('Should display UserDialog when no player was found and MessageDialog isnt visible.', () => {
+      const wrapper = setup({ userDialogVisible: false, messageDialogVisible: false });
+      const instance = wrapper.instance();
 
-      wrapper.instance()._playerHandler.loadPlayer = jest.fn().mockReturnValue(new Promise<Player>((resolve) => resolve(new Player('Hans'))));
-      wrapper.update();
-      wrapper.instance()._verifyPlayers();
+      instance._playerHandler.loadPlayer = jest.fn().mockReturnValue(new JestMockPromise((resolve) => resolve(null)));
+      instance._verifyPlayers();
 
-      expect(wrapper.instance()._playerHandler.loadPlayer).toHaveBeenCalledTimes(2);*/
+      expect(instance.state.userDialogVisible).toBeTruthy();
+    });
+
+    test('Should not display UserDialog when no player was found and MessageDialog is visible.', () => {
+      const wrapper = setup({ userDialogVisible: false, messageDialogVisible: true });
+      const instance = wrapper.instance();
+
+      instance._playerHandler.loadPlayer = jest.fn().mockReturnValue(new JestMockPromise((resolve) => resolve(null)));
+      instance._verifyPlayers();
+
+      expect(instance.state.userDialogVisible).toBeFalsy();
+    });
+
+    test('Should load all players when players were found.', () => {
+      const wrapper = setup();
+      const instance = wrapper.instance();
+
+      const player0 = new Player('Hans');
+      player0.points = 3;
+
+      const player1 = new Player('heinz');
+      player1.points = 2;
+
+      instance._playerHandler.loadPlayer = jest.fn()
+        .mockReturnValueOnce(new JestMockPromise((resolve) => resolve(player0)))
+        .mockReturnValueOnce(new JestMockPromise((resolve) => resolve(player1)));
+
+      instance._verifyPlayers();
+
+      expect(instance.state.players[0]).toBe(player0);
+      expect(instance.state.players[1]).toBe(player1);
     });
   });
 
   describe('_savePlayers', () => {
-    test('', () => {
+    test('Should mark empty TextFields as inValid.', () => {
+      const wrapper = setup();
+      const instance = wrapper.instance();
+      let textFields = instance.state.textFields;
 
+      instance._playerHandler.savePlayer = jest.fn();
+      instance._savePlayers();
+
+      let index = 0;
+
+      for (index; index < textFields.length; index++) {
+        expect(textFields[index].isValid).toBeFalsy();
+
+        textFields[index].value = '1234';
+        instance._savePlayers();
+
+        expect(textFields[index].isValid).toBeTruthy();
+      }
+
+      expect(index).toBe(2);
+    });
+
+    test('Should call savePlayer twice if no TextField is Empty.', () => {
+      const wrapper = setup();
+      const instance = wrapper.instance();
+      let textFields = instance.state.textFields;
+
+      spyOn(PlayerHandler.prototype, 'savePlayer');
+
+      for (let index = 0; index < textFields.length; index++) {
+        textFields[index].value = '1234';
+      }
+
+      instance._savePlayers();
+      expect(PlayerHandler.prototype.savePlayer).toHaveBeenCalledTimes(2);
+    });
+
+    test('Should not call savePlayer if there is an empty TextField.', () => {
+      const wrapper = setup();
+      const instance = wrapper.instance();
+      let textFields = instance.state.textFields;
+
+      spyOn(PlayerHandler.prototype, 'savePlayer');
+
+      for (let index = 1; index < textFields.length; index++) {
+        textFields[index].value = '1234';
+        instance._savePlayers();
+      }
+
+      expect(PlayerHandler.prototype.savePlayer).not.toHaveBeenCalled();
     });
   });
 
@@ -292,11 +374,22 @@ describe('Page, functions', () => {
         instance._restart();
       }
 
-      expect(spy).toBeCalledTimes(COMBINATIONS_TO_WIN_THE_GAME.length);
+      expect(spy).toBeCalledTimes(8);
     });
 
-    test('Should call _displayMessage with message "Unentschieden!"', () => {
+    test('Should call _displayMessage with param "Unentschieden!" when there is no empty field left.', () => {
+      const wrapper = setup();
+      const instance = wrapper.instance();
+      const spy = spyOn(instance, '_displayMessage');
+      const fields = instance.state.fields;
 
+      for (let index = 1; index < fields.length; index++) {
+        expect(instance._checkIfDraw(fields)).toBeFalsy();
+        fields[index].content = index.toString();
+      }
+
+      instance._selectField(0);
+      expect(spy).toHaveBeenCalledWith('Unentschieden!');
     });
   });
 

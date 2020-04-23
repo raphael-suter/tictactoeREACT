@@ -2,17 +2,17 @@ import Player from '../model/Player';
 import API_Endpoint from './API_Endpoint';
 
 export default class PlayerHandler {
-  private groupId: string;
-  private notify: (message: string) => void;
+  _groupId: string;
+  _notify: (message: string) => void;
 
-  constructor(notify: (message: string) => void) {
-    this.groupId = localStorage.getItem('groupId') || 'new';
-    this.notify = notify;
+  constructor(_notify: (message: string) => void) {
+    this._groupId = localStorage.getItem('groupId') || 'new';
+    this._notify = _notify;
   }
 
-  public savePlayer(id: number, player: Player): void {
-    this.try(
-      fetch(`${API_Endpoint}/${this.groupId}/${id}`, {
+  savePlayer(id: number, player: Player): void {
+    this._try(
+      fetch(`${API_Endpoint}/${this._groupId}/${id}`, {
         method: 'PUT',
         body: JSON.stringify(player),
         headers: {
@@ -20,44 +20,40 @@ export default class PlayerHandler {
         }
       })
         .then(response => response.json())
-        .then(groupId => {
-          this.groupId = groupId;
-          localStorage.setItem('groupId', groupId);
+        .then(_groupId => {
+          this._groupId = _groupId;
+          localStorage.setItem('groupId', _groupId);
         })
     );
   }
 
-  public loadPlayer(id: number): Promise<Player> {
+  loadPlayer(id: number): Promise<Player> {
     let promise;
 
-    if (this.groupId === 'new') {
+    if (this._groupId === 'new') {
       promise = new Promise<Player>((resolve) => resolve(null));
     } else {
       promise =
-        this.try(
-          fetch(`${API_Endpoint}/${this.groupId}/${id}`)
-            .then(response => {
-              return response.json();
-            })
+        this._try(
+          fetch(`${API_Endpoint}/${this._groupId}/${id}`)
+            .then(response => response.json())
         );
     }
 
     return promise;
   }
 
-  public deletePlayer(id: number): void {
-    if (this.groupId !== 'new') {
-      this.try(fetch(`${API_Endpoint}/${this.groupId}/${id}`, {
+  deletePlayer(id: number): void {
+    if (this._groupId !== 'new') {
+      this._try(fetch(`${API_Endpoint}/${this._groupId}/${id}`, {
         method: 'DELETE'
       }));
     }
   }
 
-  private try(promise: Promise<any>): Promise<any> {
-    return promise.catch(error => {
-      this.notify('Ein unbekannter Fehler ist aufgetreten.');
-      console.log(error);
-
+  _try(promise: Promise<any>): Promise<null> {
+    return promise.catch(() => {
+      this._notify('Ein unbekannter Fehler ist aufgetreten.');
       return null;
     });
   }
