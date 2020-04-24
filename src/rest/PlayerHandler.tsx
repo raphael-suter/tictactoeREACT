@@ -10,34 +10,32 @@ export default class PlayerHandler {
     this._notify = _notify;
   }
 
-  savePlayer(id: number, player: Player): void {
-    this._try(
-      fetch(`${API_Endpoint}/${this._groupId}/${id}`, {
-        method: 'PUT',
-        body: JSON.stringify(player),
-        headers: {
-          'Content-type': 'application/json; charset=UTF-8'
-        }
+  savePlayer(id: number, player: Player): Promise<void> {
+    return fetch(`${API_Endpoint}/${this._groupId}/${id}`, {
+      method: 'PUT',
+      body: JSON.stringify(player),
+      headers: {
+        'Content-type': 'application/json; charset=UTF-8'
+      }
+    })
+      .then(response => response.json())
+      .then(_groupId => {
+        this._groupId = _groupId;
+        localStorage.setItem('groupId', _groupId);
       })
-        .then(response => response.json())
-        .then(_groupId => {
-          this._groupId = _groupId;
-          localStorage.setItem('groupId', _groupId);
-        })
-    );
+      .catch(this._handleError);
   }
 
   loadPlayer(id: number): Promise<Player> {
     let promise;
 
     if (this._groupId === 'new') {
-      promise = new Promise<Player>((resolve) => resolve(null));
+      promise = Promise.resolve(null);
     } else {
       promise =
-        this._try(
-          fetch(`${API_Endpoint}/${this._groupId}/${id}`)
-            .then(response => response.json())
-        );
+        fetch(`${API_Endpoint}/${this._groupId}/${id}`)
+          .then(response => response.json())
+          .catch(this._handleError);
     }
 
     return promise;
@@ -45,16 +43,14 @@ export default class PlayerHandler {
 
   deletePlayer(id: number): void {
     if (this._groupId !== 'new') {
-      this._try(fetch(`${API_Endpoint}/${this._groupId}/${id}`, {
+      fetch(`${API_Endpoint}/${this._groupId}/${id}`, {
         method: 'DELETE'
-      }));
+      }).catch(this._handleError);
     }
   }
 
-  _try(promise: Promise<any>): Promise<null> {
-    return promise.catch(() => {
-      this._notify('Ein unbekannter Fehler ist aufgetreten.');
-      return null;
-    });
+  _handleError = (): Promise<void> => {
+    this._notify('Ein unbekannter Fehler ist aufgetreten.');
+    return Promise.resolve(null);
   }
 }

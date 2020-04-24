@@ -1,4 +1,3 @@
-import waitUntil from 'async-wait-until';
 import 'jest-fetch-mock';
 import Player from '../model/Player';
 import PlayerHandler from './PlayerHandler';
@@ -43,19 +42,20 @@ describe('PlayerHandler', () => {
           'Content-type': 'application/json; charset=UTF-8'
         }
       });
+
+      global.fetch.mockClear();
     });
 
     test('Should replace groupId.', async (done) => {
       const testee = setup('new');
 
       jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve(new Response(JSON.stringify('qwertz'))));
-      testee.savePlayer(0, null);
-
-      await waitUntil(() => testee._groupId !== 'new');
+      await testee.savePlayer(0, null);
 
       expect(testee._groupId).toBe('qwertz');
       expect(localStorage.setItem).toBeCalledWith('groupId', 'qwertz');
 
+      global.fetch.mockClear();
       done();
     });
   });
@@ -67,6 +67,8 @@ describe('PlayerHandler', () => {
 
       testee.loadPlayer(0);
       expect(spy).toBeCalledWith('http://localhost:8000/v1/1234/0');
+
+      global.fetch.mockClear();
     });
 
     test('Should not call fetch and instead return empty Promise if groupId is "new".', () => {
@@ -84,36 +86,38 @@ describe('PlayerHandler', () => {
   describe('deletePlayer', () => {
     test('Should call fetch with correct params if groupId is not "new".', () => {
       const testee = setup();
-      const spy = spyOn(global, 'fetch');
+      const spy = jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve(null));
 
-      testee._try = jest.fn();
       testee.deletePlayer(0);
 
       expect(spy).toBeCalledWith('http://localhost:8000/v1/1234/0', {
         method: 'DELETE'
       });
+
+      global.fetch.mockClear();
     });
 
     test('Should not call fetch if groupId is "new".', () => {
       const testee = setup('new');
-      const spy = spyOn(global, 'fetch');
+      const spy = jest.spyOn(global, 'fetch').mockImplementation(() => Promise.resolve(null));
 
       testee.deletePlayer(0);
       expect(spy).not.toBeCalled();
+
+      global.fetch.mockClear();
     });
   });
 
   describe('_try', () => {
-    test('Should catch error, call notify and return empty Promise', () => {
+    test('Should catch error, call notify and return empty Promise', async (done) => {
       const testee = setup();
       const spy = spyOn(testee, '_notify');
+      const data = await new Promise((_, reject) => reject()).catch(testee._handleError);
 
-      testee._try(
-        new Promise((_, reject) => reject())
-      ).then(data => {
-        expect(spy).toBeCalledTimes(1);
-        expect(data).toBe(null);
-      });
+      expect(spy).toBeCalledTimes(1);
+      expect(data).toBe(null);
+
+      done();
     });
   });
 });
