@@ -1,0 +1,304 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1588001224424" clover="3.2.0">
+  <project timestamp="1588001224424" name="All files">
+    <metrics statements="211" coveredstatements="188" conditionals="44" coveredconditionals="41" methods="66" coveredmethods="43" elements="321" coveredelements="272" complexity="0" loc="211" ncloc="211" packages="13" files="16" classes="16"/>
+    <package name="components.Board">
+      <metrics statements="8" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="1"/>
+      <file name="index.tsx" path="/Users/c230375/Documents/tictactoeREACT/src/components/Board/index.tsx">
+        <metrics statements="8" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="1"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="9" count="2" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="20" count="2" type="stmt"/>
+        <line num="23" count="2" type="stmt"/>
+      </file>
+    </package>
+    <package name="components.Board.Field">
+      <metrics statements="8" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="1"/>
+      <file name="index.tsx" path="/Users/c230375/Documents/tictactoeREACT/src/components/Board/Field/index.tsx">
+        <metrics statements="8" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="1"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="16" count="2" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="28" count="2" type="stmt"/>
+        <line num="29" count="3" type="stmt"/>
+      </file>
+    </package>
+    <package name="components.Dialog">
+      <metrics statements="9" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="1"/>
+      <file name="index.tsx" path="/Users/c230375/Documents/tictactoeREACT/src/components/Dialog/index.tsx">
+        <metrics statements="9" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="4" coveredmethods="1"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="15" count="0" type="stmt"/>
+        <line num="18" count="2" type="stmt"/>
+        <line num="22" count="0" type="stmt"/>
+        <line num="23" count="0" type="stmt"/>
+        <line num="27" count="2" type="stmt"/>
+        <line num="29" count="2" type="stmt"/>
+      </file>
+    </package>
+    <package name="components.Dialog.Button">
+      <metrics statements="7" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="1"/>
+      <file name="index.tsx" path="/Users/c230375/Documents/tictactoeREACT/src/components/Dialog/Button/index.tsx">
+        <metrics statements="7" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="1"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="11" count="0" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+        <line num="16" count="2" type="stmt"/>
+        <line num="17" count="3" type="stmt"/>
+      </file>
+    </package>
+    <package name="components.Dialog.Loader">
+      <metrics statements="9" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="1"/>
+      <file name="index.tsx" path="/Users/c230375/Documents/tictactoeREACT/src/components/Dialog/Loader/index.tsx">
+        <metrics statements="9" coveredstatements="7" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="1"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="7" count="2" type="stmt"/>
+        <line num="16" count="2" type="stmt"/>
+        <line num="20" count="0" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="26" count="2" type="stmt"/>
+      </file>
+    </package>
+    <package name="components.Dialog.TextField">
+      <metrics statements="9" coveredstatements="6" conditionals="2" coveredconditionals="0" methods="4" coveredmethods="1"/>
+      <file name="index.tsx" path="/Users/c230375/Documents/tictactoeREACT/src/components/Dialog/TextField/index.tsx">
+        <metrics statements="9" coveredstatements="6" conditionals="2" coveredconditionals="0" methods="4" coveredmethods="1"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="12" count="2" type="stmt"/>
+        <line num="18" count="0" type="stmt"/>
+        <line num="19" count="0" type="cond" truecount="0" falsecount="2"/>
+        <line num="24" count="2" type="stmt"/>
+        <line num="25" count="7" type="stmt"/>
+      </file>
+    </package>
+    <package name="components.Dialog.Title">
+      <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <file name="index.tsx" path="/Users/c230375/Documents/tictactoeREACT/src/components/Dialog/Title/index.tsx">
+        <metrics statements="5" coveredstatements="5" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="12" count="2" type="stmt"/>
+        <line num="13" count="2" type="stmt"/>
+      </file>
+    </package>
+    <package name="components.Page">
+      <metrics statements="103" coveredstatements="103" conditionals="35" coveredconditionals="35" methods="25" coveredmethods="25"/>
+      <file name="index.tsx" path="/Users/c230375/Documents/tictactoeREACT/src/components/Page/index.tsx">
+        <metrics statements="103" coveredstatements="103" conditionals="35" coveredconditionals="35" methods="25" coveredmethods="25"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="2" count="1" type="stmt"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="5" count="1" type="stmt"/>
+        <line num="6" count="1" type="stmt"/>
+        <line num="7" count="1" type="stmt"/>
+        <line num="8" count="1" type="stmt"/>
+        <line num="9" count="1" type="stmt"/>
+        <line num="10" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+        <line num="12" count="1" type="stmt"/>
+        <line num="13" count="1" type="stmt"/>
+        <line num="14" count="1" type="stmt"/>
+        <line num="15" count="1" type="stmt"/>
+        <line num="16" count="1" type="stmt"/>
+        <line num="17" count="1" type="stmt"/>
+        <line num="20" count="1" type="stmt"/>
+        <line num="25" count="50" type="stmt"/>
+        <line num="27" count="50" type="stmt"/>
+        <line num="28" count="50" type="stmt"/>
+        <line num="29" count="50" type="stmt"/>
+        <line num="33" count="172" type="stmt"/>
+        <line num="34" count="344" type="stmt"/>
+        <line num="35" count="344" type="stmt"/>
+        <line num="37" count="172" type="stmt"/>
+        <line num="44" count="1548" type="stmt"/>
+        <line num="48" count="94" type="stmt"/>
+        <line num="71" count="51" type="stmt"/>
+        <line num="75" count="64" type="stmt"/>
+        <line num="78" count="64" type="cond" truecount="2" falsecount="0"/>
+        <line num="79" count="62" type="stmt"/>
+        <line num="84" count="2" type="stmt"/>
+        <line num="85" count="2" type="stmt"/>
+        <line num="87" count="2" type="cond" truecount="2" falsecount="0"/>
+        <line num="88" count="1" type="stmt"/>
+        <line num="93" count="1" type="stmt"/>
+        <line num="99" count="50" type="stmt"/>
+        <line num="100" count="5" type="stmt"/>
+        <line num="101" count="5" type="stmt"/>
+        <line num="103" count="5" type="stmt"/>
+        <line num="104" count="10" type="cond" truecount="2" falsecount="0"/>
+        <line num="105" count="4" type="stmt"/>
+        <line num="106" count="4" type="stmt"/>
+        <line num="108" count="6" type="stmt"/>
+        <line num="112" count="5" type="cond" truecount="2" falsecount="0"/>
+        <line num="113" count="2" type="stmt"/>
+        <line num="115" count="2" type="stmt"/>
+        <line num="116" count="4" type="stmt"/>
+        <line num="118" count="4" type="stmt"/>
+        <line num="119" count="4" type="stmt"/>
+        <line num="122" count="2" type="stmt"/>
+        <line num="127" count="3" type="stmt"/>
+        <line num="132" count="35" type="stmt"/>
+        <line num="133" count="35" type="stmt"/>
+        <line num="134" count="35" type="stmt"/>
+        <line num="136" count="35" type="cond" truecount="2" falsecount="0"/>
+        <line num="137" count="1" type="stmt"/>
+        <line num="140" count="34" type="cond" truecount="2" falsecount="0"/>
+        <line num="141" count="34" type="stmt"/>
+        <line num="143" count="34" type="stmt"/>
+        <line num="144" count="390" type="stmt"/>
+        <line num="145" count="244" type="stmt"/>
+        <line num="147" count="244" type="cond" truecount="5" falsecount="0"/>
+        <line num="148" count="8" type="stmt"/>
+        <line num="149" count="8" type="stmt"/>
+        <line num="153" count="26" type="cond" truecount="2" falsecount="0"/>
+        <line num="154" count="1" type="stmt"/>
+        <line num="155" count="1" type="stmt"/>
+        <line num="158" count="25" type="stmt"/>
+        <line num="162" count="5" type="stmt"/>
+        <line num="163" count="5" type="stmt"/>
+        <line num="165" count="5" type="stmt"/>
+        <line num="166" count="5" type="stmt"/>
+        <line num="168" count="5" type="stmt"/>
+        <line num="171" count="50" type="stmt"/>
+        <line num="172" count="5" type="stmt"/>
+        <line num="180" count="50" type="stmt"/>
+        <line num="181" count="2" type="stmt"/>
+        <line num="187" count="44" type="stmt"/>
+        <line num="188" count="103" type="cond" truecount="2" falsecount="0"/>
+        <line num="189" count="42" type="stmt"/>
+        <line num="193" count="2" type="stmt"/>
+        <line num="196" count="50" type="stmt"/>
+        <line num="197" count="3" type="stmt"/>
+        <line num="199" count="3" type="stmt"/>
+        <line num="200" count="6" type="stmt"/>
+        <line num="205" count="305" type="stmt"/>
+        <line num="209" count="2" type="stmt"/>
+        <line num="210" count="2" type="stmt"/>
+        <line num="212" count="2" type="stmt"/>
+        <line num="215" count="50" type="stmt"/>
+        <line num="216" count="11" type="stmt"/>
+        <line num="218" count="11" type="stmt"/>
+        <line num="219" count="11" type="stmt"/>
+        <line num="223" count="62" type="stmt"/>
+        <line num="224" count="62" type="stmt"/>
+        <line num="226" count="124" type="stmt"/>
+        <line num="227" count="62" type="stmt"/>
+        <line num="229" count="62" type="stmt"/>
+        <line num="230" count="558" type="stmt"/>
+        <line num="236" count="124" type="stmt"/>
+        <line num="244" count="62" type="stmt"/>
+      </file>
+    </package>
+    <package name="components.Toolbar">
+      <metrics statements="14" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="1"/>
+      <file name="index.tsx" path="/Users/c230375/Documents/tictactoeREACT/src/components/Toolbar/index.tsx">
+        <metrics statements="14" coveredstatements="8" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="1"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="8" count="0" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="16" count="2" type="stmt"/>
+        <line num="21" count="0" type="stmt"/>
+        <line num="24" count="2" type="stmt"/>
+        <line num="27" count="0" type="stmt"/>
+        <line num="34" count="0" type="stmt"/>
+        <line num="35" count="0" type="stmt"/>
+        <line num="39" count="2" type="stmt"/>
+        <line num="46" count="2" type="stmt"/>
+        <line num="47" count="4" type="stmt"/>
+      </file>
+    </package>
+    <package name="components.Toolbar.IconButton">
+      <metrics statements="8" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="1"/>
+      <file name="index.tsx" path="/Users/c230375/Documents/tictactoeREACT/src/components/Toolbar/IconButton/index.tsx">
+        <metrics statements="8" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="3" coveredmethods="1"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="5" count="2" type="stmt"/>
+        <line num="9" count="0" type="stmt"/>
+        <line num="14" count="2" type="stmt"/>
+        <line num="16" count="0" type="stmt"/>
+        <line num="19" count="2" type="stmt"/>
+        <line num="20" count="3" type="stmt"/>
+      </file>
+    </package>
+    <package name="model">
+      <metrics statements="5" coveredstatements="5" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="1"/>
+      <file name="Player.tsx" path="/Users/c230375/Documents/tictactoeREACT/src/model/Player.tsx">
+        <metrics statements="5" coveredstatements="5" conditionals="1" coveredconditionals="0" methods="1" coveredmethods="1"/>
+        <line num="1" count="2" type="stmt"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="3" count="2" type="stmt"/>
+        <line num="9" count="133" type="stmt"/>
+        <line num="10" count="133" type="stmt"/>
+      </file>
+    </package>
+    <package name="rest">
+      <metrics statements="19" coveredstatements="19" conditionals="6" coveredconditionals="6" methods="8" coveredmethods="8"/>
+      <file name="API_Endpoint.tsx" path="/Users/c230375/Documents/tictactoeREACT/src/rest/API_Endpoint.tsx">
+        <metrics statements="1" coveredstatements="1" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="1" count="2" type="stmt"/>
+      </file>
+      <file name="PlayerHandler.tsx" path="/Users/c230375/Documents/tictactoeREACT/src/rest/PlayerHandler.tsx">
+        <metrics statements="18" coveredstatements="18" conditionals="6" coveredconditionals="6" methods="8" coveredmethods="8"/>
+        <line num="2" count="2" type="stmt"/>
+        <line num="4" count="2" type="stmt"/>
+        <line num="9" count="59" type="cond" truecount="2" falsecount="0"/>
+        <line num="10" count="59" type="stmt"/>
+        <line num="14" count="2" type="stmt"/>
+        <line num="21" count="2" type="stmt"/>
+        <line num="23" count="2" type="stmt"/>
+        <line num="24" count="2" type="stmt"/>
+        <line num="32" count="62" type="cond" truecount="2" falsecount="0"/>
+        <line num="33" count="61" type="stmt"/>
+        <line num="35" count="1" type="stmt"/>
+        <line num="37" count="1" type="stmt"/>
+        <line num="41" count="62" type="stmt"/>
+        <line num="45" count="6" type="cond" truecount="2" falsecount="0"/>
+        <line num="46" count="1" type="stmt"/>
+        <line num="52" count="59" type="stmt"/>
+        <line num="53" count="1" type="stmt"/>
+        <line num="54" count="1" type="stmt"/>
+      </file>
+    </package>
+    <package name="themes">
+      <metrics statements="7" coveredstatements="6" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+      <file name="DarkTheme.tsx" path="/Users/c230375/Documents/tictactoeREACT/src/themes/DarkTheme.tsx">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+      </file>
+      <file name="GlobalStyle.tsx" path="/Users/c230375/Documents/tictactoeREACT/src/themes/GlobalStyle.tsx">
+        <metrics statements="3" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
+        <line num="1" count="1" type="stmt"/>
+        <line num="4" count="1" type="stmt"/>
+        <line num="12" count="0" type="stmt"/>
+      </file>
+      <file name="LightTheme.tsx" path="/Users/c230375/Documents/tictactoeREACT/src/themes/LightTheme.tsx">
+        <metrics statements="2" coveredstatements="2" conditionals="0" coveredconditionals="0" methods="0" coveredmethods="0"/>
+        <line num="3" count="1" type="stmt"/>
+        <line num="11" count="1" type="stmt"/>
+      </file>
+    </package>
+  </project>
+</coverage>
