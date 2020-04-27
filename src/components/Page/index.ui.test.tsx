@@ -1,12 +1,18 @@
 import puppeteer from 'puppeteer';
 
+let browser: puppeteer.Browser;
+let page: puppeteer.Page;
+
+beforeEach(async (done) => {
+  browser = await puppeteer.launch();
+  page = await browser.newPage();
+
+  await page.goto('http://localhost:8080/');
+  done();
+});
+
 describe('TicTacToe', () => {
   test('Should change TextField appearance when form is submitted empty.', async (done) => {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-
-    await page.goto('http://localhost:8080/');
-
     const textFieldsValid_Before = await page.$$("[class='sc-fzozJi jeCHOk']");
     const textFieldsInValid_Before = await page.$$("[class='sc-fzozJi kwaWSs']");
 
@@ -20,16 +26,10 @@ describe('TicTacToe', () => {
     expect(textFieldsValid_After.length).toBe(0);
     expect(textFieldsInValid_After.length).toBe(2);
 
-    browser.close();
     done();
   });
 
   test('Should display a message when someone wins.', async (done) => {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-
-    await page.goto('http://localhost:8080/');
-
     const textFields = await page.$$("[class='sc-fzozJi jeCHOk']");
     const submitButton = await page.$("[class='sc-AxheI gSORjP']");
     const fields = await page.$$("[class='sc-AxhCb dRAKpJ']");
@@ -51,16 +51,10 @@ describe('TicTacToe', () => {
     expect(dialog_Before.length).toBe(0);
     expect(dialog_After.length).toBe(1);
 
-    browser.close();
     done();
   });
 
   test('Should display a message when there is no empty field left.', async (done) => {
-    const browser = await puppeteer.launch();
-    const page = await browser.newPage();
-
-    await page.goto('http://localhost:8080/');
-
     const textFields = await page.$$("[class='sc-fzozJi jeCHOk']");
     const submitButton = await page.$("[class='sc-AxheI gSORjP']");
     const fields = await page.$$("[class='sc-AxhCb dRAKpJ']");
@@ -82,13 +76,50 @@ describe('TicTacToe', () => {
     await fields[8].click();
 
     const dialog_After = await page.$$("[class='sc-AxgMl joaQzC']");
-    const message = await (await page.$("[class='sc-fzoLsD drscNc']")).evaluate(element => element.textContent);
+    const message = await (await page.$("[class='sc-fzoLsD drscNc']")).evaluate((element: any) => element.textContent);
 
     expect(dialog_Before.length).toBe(0);
     expect(dialog_After.length).toBe(1);
     expect(message).toBe('Unentschieden!');
 
-    browser.close();
     done();
   });
+
+  test('Should display score in correct format.', async (done) => {
+    const textFields = await page.$$("[class='sc-fzozJi jeCHOk']");
+    const submitButton = await page.$("[class='sc-AxheI gSORjP']");
+
+    await textFields[0].type('xxx');
+    await textFields[1].type('ooo');
+    await submitButton.click();
+
+    const message = await (await page.$("[class='sc-fznyAO iyklt']")).evaluate((element: any) => element.textContent);
+    expect(message).toBe('xxx 0:0 ooo');
+
+    done();
+  });
+
+  test('Should switch between X an O.', async (done) => {
+    const textFields = await page.$$("[class='sc-fzozJi jeCHOk']");
+    const submitButton = await page.$("[class='sc-AxheI gSORjP']");
+    const fields = await page.$$("[class='sc-AxhCb dRAKpJ']");
+
+    await textFields[0].type('u');
+    await textFields[1].type('o');
+    await submitButton.click();
+
+    await fields[0].click();
+    await fields[1].click();
+    await fields[2].click();
+
+    expect(await fields[0].evaluate((element: any) => element.textContent)).toBe('X');
+    expect(await fields[1].evaluate((element: any) => element.textContent)).toBe('O');
+    expect(await fields[2].evaluate((element: any) => element.textContent)).toBe('X');
+
+    done();
+  });
+});
+
+afterEach(() => {
+  browser.close();
 });
