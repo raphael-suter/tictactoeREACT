@@ -3,16 +3,15 @@ import puppeteer from 'puppeteer';
 let browser: puppeteer.Browser;
 let page: puppeteer.Page;
 
-beforeEach(async (done) => {
+beforeEach(async () => {
   browser = await puppeteer.launch();
   page = await browser.newPage();
 
   await page.goto('http://localhost:8080/');
-  done();
 });
 
 describe('TicTacToe', () => {
-  test('Should change TextField appearance when form is submitted empty.', async (done) => {
+  test('Should change TextField appearance when form is submitted empty.', async () => {
     const textFieldsValid_Before = await page.$$("[class='sc-fzozJi jeCHOk']");
     const textFieldsInValid_Before = await page.$$("[class='sc-fzozJi kwaWSs']");
 
@@ -25,11 +24,9 @@ describe('TicTacToe', () => {
     expect(textFieldsInValid_Before.length).toBe(0);
     expect(textFieldsValid_After.length).toBe(0);
     expect(textFieldsInValid_After.length).toBe(2);
-
-    done();
   });
 
-  test('Should display a message when someone wins.', async (done) => {
+  test('Should display a message when someone wins.', async () => {
     const textFields = await page.$$("[class='sc-fzozJi jeCHOk']");
     const submitButton = await page.$("[class='sc-AxheI gSORjP']");
     const fields = await page.$$("[class='sc-AxhCb dRAKpJ']");
@@ -50,11 +47,9 @@ describe('TicTacToe', () => {
 
     expect(dialog_Before.length).toBe(0);
     expect(dialog_After.length).toBe(1);
-
-    done();
   });
 
-  test('Should display a message when there is no empty field left.', async (done) => {
+  test('Should display a message when there is no empty field left.', async () => {
     const textFields = await page.$$("[class='sc-fzozJi jeCHOk']");
     const submitButton = await page.$("[class='sc-AxheI gSORjP']");
     const fields = await page.$$("[class='sc-AxhCb dRAKpJ']");
@@ -81,11 +76,9 @@ describe('TicTacToe', () => {
     expect(dialog_Before.length).toBe(0);
     expect(dialog_After.length).toBe(1);
     expect(message).toBe('Unentschieden!');
-
-    done();
   });
 
-  test('Should display score in correct format.', async (done) => {
+  test('Should display score in correct format.', async () => {
     const textFields = await page.$$("[class='sc-fzozJi jeCHOk']");
     const submitButton = await page.$("[class='sc-AxheI gSORjP']");
 
@@ -95,11 +88,9 @@ describe('TicTacToe', () => {
 
     const message = await (await page.$("[class='sc-fznyAO iyklt']")).evaluate((element: any) => element.textContent);
     expect(message).toBe('xxx 0:0 ooo');
-
-    done();
   });
 
-  test('Should switch between X an O.', async (done) => {
+  test('Should switch between X an O.', async () => {
     const textFields = await page.$$("[class='sc-fzozJi jeCHOk']");
     const submitButton = await page.$("[class='sc-AxheI gSORjP']");
     const fields = await page.$$("[class='sc-AxhCb dRAKpJ']");
@@ -115,11 +106,9 @@ describe('TicTacToe', () => {
     expect(await fields[0].evaluate((element: any) => element.textContent)).toBe('X');
     expect(await fields[1].evaluate((element: any) => element.textContent)).toBe('O');
     expect(await fields[2].evaluate((element: any) => element.textContent)).toBe('X');
-
-    done();
   });
 });
 
-afterEach(() => {
-  browser.close();
+afterEach(async () => {
+  await browser.close();
 });
