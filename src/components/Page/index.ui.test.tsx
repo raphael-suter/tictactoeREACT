@@ -11,31 +11,37 @@ beforeEach(async () => {
 });
 
 describe('TicTacToe', () => {
-  test('Should change TextField appearance when form is submitted empty.', async () => {
-    const textFieldsValid_Before = await page.$$("[class='sc-fzozJi jeCHOk']");
-    const textFieldsInValid_Before = await page.$$("[class='sc-fzozJi kwaWSs']");
+  test('Should change border-color of TextField when form is submitted empty.', async () => {
+    const dialog = await page.$('article');
+    const button = await dialog.$('button');
 
-    await page.click("[class='sc-AxheI gSORjP']");
+    const COLOR_VALID = 'rgb(0, 0, 128)';
+    const COLOR_INVALID = 'rgb(255, 0, 0)';
 
-    const textFieldsValid_After = await page.$$("[class='sc-fzozJi jeCHOk']");
-    const textFieldsInValid_After = await page.$$("[class='sc-fzozJi kwaWSs']");
+    const borderColorOfTextField = async (index: number) => {
+      return await page.evaluate((index: number) => {
+        return getComputedStyle(
+          document.querySelectorAll("[type='text']")[index]
+        ).getPropertyValue('border-color')
+      }, index);
+    }
 
-    expect(textFieldsValid_Before.length).toBe(2);
-    expect(textFieldsInValid_Before.length).toBe(0);
-    expect(textFieldsValid_After.length).toBe(0);
-    expect(textFieldsInValid_After.length).toBe(2);
+    expect(await borderColorOfTextField(0)).toBe(COLOR_VALID);
+    expect(await borderColorOfTextField(1)).toBe(COLOR_VALID);
+
+    await button.click();
+
+    expect(await borderColorOfTextField(0)).toBe(COLOR_INVALID);
+    expect(await borderColorOfTextField(1)).toBe(COLOR_INVALID);
   });
 
   test('Should display a message when someone wins.', async () => {
-    const textFields = await page.$$("[class='sc-fzozJi jeCHOk']");
-    const submitButton = await page.$("[class='sc-AxheI gSORjP']");
-    const fields = await page.$$("[class='sc-AxhCb dRAKpJ']");
+    await signIn();
 
-    await textFields[0].type('u');
-    await textFields[1].type('o');
-    await submitButton.click();
-
-    const dialog_Before = await page.$$("[class='sc-AxgMl joaQzC']");
+    const main = await page.$('main');
+    const div = await main.$('div');
+    const fields = await div.$$('div');
+    const dialog_Before = await page.$('article');
 
     await fields[0].click();
     await fields[1].click();
@@ -43,22 +49,22 @@ describe('TicTacToe', () => {
     await fields[4].click();
     await fields[6].click();
 
-    const dialog_After = await page.$$("[class='sc-AxgMl joaQzC']");
+    const dialog_After = await page.$('article');
+    const h1 = await dialog_After.$('h1');
+    const message = await h1.evaluate((element: any) => element.textContent);
 
-    expect(dialog_Before.length).toBe(0);
-    expect(dialog_After.length).toBe(1);
+    expect(dialog_Before).toBeFalsy();
+    expect(dialog_After).toBeTruthy();
+    expect(message).toBe('xxx hat gewonnen!');
   });
 
   test('Should display a message when there is no empty field left.', async () => {
-    const textFields = await page.$$("[class='sc-fzozJi jeCHOk']");
-    const submitButton = await page.$("[class='sc-AxheI gSORjP']");
-    const fields = await page.$$("[class='sc-AxhCb dRAKpJ']");
+    await signIn();
 
-    await textFields[0].type('u');
-    await textFields[1].type('o');
-    await submitButton.click();
-
-    const dialog_Before = await page.$$("[class='sc-AxgMl joaQzC']");
+    const main = await page.$('main');
+    const div = await main.$('div');
+    const fields = await div.$$('div');
+    const dialog_Before = await page.$('article');
 
     await fields[1].click();
     await fields[0].click();
@@ -70,44 +76,57 @@ describe('TicTacToe', () => {
     await fields[7].click();
     await fields[8].click();
 
-    const dialog_After = await page.$$("[class='sc-AxgMl joaQzC']");
-    const message = await (await page.$("[class='sc-fzoLsD drscNc']")).evaluate((element: any) => element.textContent);
+    const dialog_After = await page.$('article');
+    const h1 = await dialog_After.$('h1');
+    const message = await h1.evaluate((element: any) => element.textContent);
 
-    expect(dialog_Before.length).toBe(0);
-    expect(dialog_After.length).toBe(1);
+    expect(dialog_Before).toBeFalsy();
+    expect(dialog_After).toBeTruthy();
     expect(message).toBe('Unentschieden!');
   });
 
   test('Should display score in correct format.', async () => {
-    const textFields = await page.$$("[class='sc-fzozJi jeCHOk']");
-    const submitButton = await page.$("[class='sc-AxheI gSORjP']");
+    await signIn();
 
-    await textFields[0].type('xxx');
-    await textFields[1].type('ooo');
-    await submitButton.click();
+    const header = await page.$('header');
+    const p = await header.$('p');
+    const score = await p.evaluate((element: any) => element.textContent);
 
-    const message = await (await page.$("[class='sc-fznyAO iyklt']")).evaluate((element: any) => element.textContent);
-    expect(message).toBe('xxx 0:0 ooo');
+    expect(score).toBe('xxx 0:0 ooo');
   });
 
   test('Should switch between X an O.', async () => {
-    const textFields = await page.$$("[class='sc-fzozJi jeCHOk']");
-    const submitButton = await page.$("[class='sc-AxheI gSORjP']");
-    const fields = await page.$$("[class='sc-AxhCb dRAKpJ']");
+    await signIn();
 
-    await textFields[0].type('u');
-    await textFields[1].type('o');
-    await submitButton.click();
+    const main = await page.$('main');
+    const div = await main.$('div');
+    const fields = await div.$$('div');
+
+    const textInField = async (index: number) => {
+      return await fields[index].evaluate((element: any) => {
+        return element.textContent
+      });
+    }
 
     await fields[0].click();
     await fields[1].click();
     await fields[2].click();
 
-    expect(await fields[0].evaluate((element: any) => element.textContent)).toBe('X');
-    expect(await fields[1].evaluate((element: any) => element.textContent)).toBe('O');
-    expect(await fields[2].evaluate((element: any) => element.textContent)).toBe('X');
+    expect(await textInField(0)).toBe('X');
+    expect(await textInField(1)).toBe('O');
+    expect(await textInField(2)).toBe('X');
   });
 });
+
+const signIn = async () => {
+  const userDialog = await page.$('article');
+  const textFields = await userDialog.$$('input');
+  const button = await userDialog.$('button');
+
+  await textFields[0].type('xxx');
+  await textFields[1].type('ooo');
+  await button.click();
+}
 
 afterEach(async () => {
   await browser.close();
