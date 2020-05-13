@@ -9,10 +9,10 @@ import LightTheme from '../../themes/LightTheme';
 import Board from '../Board';
 import Field from '../Board/Field';
 import Dialog from '../Dialog';
-import DialogButton from '../Dialog/Button';
+import AXAbutton from '../Dialog/AXAbutton';
+import AXAtextfield from '../Dialog/AXAtextfield';
+import AXAtitle from '../Dialog/AXAtitle';
 import Loader from '../Dialog/Loader';
-import TextField from '../Dialog/TextField';
-import Title from '../Dialog/Title';
 import Toolbar from '../Toolbar';
 import IconButton from '../Toolbar/IconButton';
 import State from './State';
@@ -45,15 +45,15 @@ export default class extends PureComponent<{}, State> {
         {
           userDialogVisible &&
           <Dialog data-test='UserDialog'>
-            <>{textFields.map(({ label, placeholder, value, isValid, onChange }, index) => <TextField key={index} label={label} placeholder={placeholder} value={value} isValid={isValid} onChange={onChange} />)}</>
-            <DialogButton data-test='saveButton' text='save' onClick={this._savePlayers} />
+            <>{textFields.map(({ label, placeholder, value, isValid, onChange }, index) => <AXAtextfield key={index} name={label} label={label} placeholder={placeholder} value={value} invalid={!isValid} onChange={onChange} />)}</>
+            <AXAbutton data-test='saveButton' onClick={this._savePlayers}>save</AXAbutton>
           </Dialog>
         }
         {
           messageDialogVisible &&
           <Dialog data-test='MessageDialog'>
-            <Title data-test='message' text={message} />
-            <DialogButton data-test='restartButton' text='restart' onClick={this._restart} />
+            <AXAtitle data-test='message' rank={4}>{message}</AXAtitle>
+            <AXAbutton data-test='restartButton' onClick={this._restart} >restart</AXAbutton>
           </Dialog>
         }
         {

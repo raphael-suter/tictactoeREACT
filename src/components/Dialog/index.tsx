@@ -18,8 +18,8 @@ const Background = styled.div`
 const Card = styled.article`
   max-width: 500px;
   margin: auto;
-  padding: 0.6rem;
-  box-shadow: 0 0 2px 0 ${({ theme }) => theme.shadowColor};
+  padding: 1.2rem;
+  box-shadow: 0 0 8px 0 ${({ theme }) => theme.shadowColor};
   background: ${({ theme }) => theme.lightColor};
   flex: 1;
 `;
