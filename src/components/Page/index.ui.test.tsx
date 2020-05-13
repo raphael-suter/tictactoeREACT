@@ -13,10 +13,10 @@ beforeEach(async () => {
 describe('TicTacToe', () => {
   test('Should change border-color of TextField when form is submitted empty.', async () => {
     const dialog = await page.$('article');
-    const button = await dialog.$('button');
+    const button = await dialog.$('axa-button');
 
-    const COLOR_VALID = 'rgb(0, 0, 128)';
-    const COLOR_INVALID = 'rgb(255, 0, 0)';
+    const COLOR_VALID = 'rgb(153, 153, 153)';
+    const COLOR_INVALID = 'rgb(201, 20, 50)';
 
     const borderColorOfTextField = async (index: number) => {
       return await page.evaluate((index: number) => {
@@ -50,7 +50,7 @@ describe('TicTacToe', () => {
     await fields[6].click();
 
     const dialog_After = await page.$('article');
-    const h1 = await dialog_After.$('h1');
+    const h1 = await dialog_After.$('axa-heading');
     const message = await h1.evaluate((element: any) => element.textContent);
 
     expect(dialog_Before).toBeFalsy();
@@ -77,7 +77,7 @@ describe('TicTacToe', () => {
     await fields[8].click();
 
     const dialog_After = await page.$('article');
-    const h1 = await dialog_After.$('h1');
+    const h1 = await dialog_After.$('axa-heading');
     const message = await h1.evaluate((element: any) => element.textContent);
 
     expect(dialog_Before).toBeFalsy();
@@ -121,7 +121,7 @@ describe('TicTacToe', () => {
 const signIn = async () => {
   const userDialog = await page.$('article');
   const textFields = await userDialog.$$('input');
-  const button = await userDialog.$('button');
+  const button = await userDialog.$('axa-button');
 
   await textFields[0].type('xxx');
   await textFields[1].type('ooo');
