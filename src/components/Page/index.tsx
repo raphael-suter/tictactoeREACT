@@ -1,21 +1,22 @@
-import 'material-design-icons/iconfont/material-icons.css';
-import React, { PureComponent } from 'react';
-import { ThemeProvider } from 'styled-components';
-import Player from '../../model/Player';
-import PlayerHandler from '../../rest/PlayerHandler';
-import DarkTheme from '../../themes/DarkTheme';
-import GlobalStyle from '../../themes/GlobalStyle';
-import LightTheme from '../../themes/LightTheme';
-import Board from '../Board';
-import Field from '../Board/Field';
-import Dialog from '../Dialog';
-import AXAbutton from '../Dialog/AXAbutton';
-import AXAtextfield from '../Dialog/AXAtextfield';
-import AXAtitle from '../Dialog/AXAtitle';
-import Loader from '../Dialog/Loader';
-import Toolbar from '../Toolbar';
-import IconButton from '../Toolbar/IconButton';
-import State from './State';
+import "material-design-icons/iconfont/material-icons.css";
+import React, { PureComponent } from "react";
+import { ThemeProvider } from "styled-components";
+import Player from "../../model/Player";
+import PlayerHandler from "../../rest/PlayerHandler";
+import DarkTheme from "../../themes/DarkTheme";
+import GlobalStyle from "../../themes/GlobalStyle";
+import LightTheme from "../../themes/LightTheme";
+import Board from "../Board";
+import Field from "../Board/Field";
+import Dialog from "../Dialog";
+import AXAbutton from "../Dialog/AXAbutton";
+import AXAtextfield from "../Dialog/AXAtextfield";
+import AXAtitle from "../Dialog/AXAtitle";
+import AXAToggleSwitch from "../Dialog/AXAToggleSwitch";
+import Loader from "../Dialog/Loader";
+import Toolbar from "../Toolbar";
+import IconButton from "../Toolbar/IconButton";
+import State from "./State";
 
 export default class extends PureComponent<{}, State> {
   _playerHandler: PlayerHandler;
@@ -30,38 +31,78 @@ export default class extends PureComponent<{}, State> {
   }
 
   render() {
-    const { players, fields, textFields, loaderVisible, userDialogVisible, message, messageDialogVisible, darkMode } = this.state;
-    const name = players.map(item => item.name);
-    const points = players.map(item => item.points);
+    const {
+      players,
+      fields,
+      textFields,
+      loaderVisible,
+      userDialogVisible,
+      message,
+      messageDialogVisible,
+      darkMode,
+    } = this.state;
+    const name = players.map((item) => item.name);
+    const points = players.map((item) => item.points);
 
     return (
       <ThemeProvider theme={darkMode ? DarkTheme : LightTheme}>
         <GlobalStyle />
-        <Toolbar data-test='toolbar' title='TicTacToe' score={`${name[Player.X]} ${points[Player.X]}:${points[Player.O]} ${name[Player.O]}`}>
-          <IconButton data-test='themeButton' icon='settings_brightness' onClick={this._switchTheme} />
-          <IconButton data-test='deleteButton' icon='delete' onClick={this._deleteData} />
+        <Toolbar
+          data-test="toolbar"
+          title="TicTacToe"
+          score={`${name[Player.X]} ${points[Player.X]}:${points[Player.O]} ${
+            name[Player.O]
+          }`}
+        >
+          <AXAToggleSwitch active={darkMode} onChange={this._switchTheme} />
+          <IconButton
+            data-test="deleteButton"
+            icon="delete"
+            onClick={this._deleteData}
+          />
         </Toolbar>
-        <Board data-test='board'>{fields.map(({ content, onClick }, index) => <Field key={index} content={content} onClick={onClick} />)}</Board>
-        {
-          userDialogVisible &&
-          <Dialog data-test='UserDialog'>
-            <>{textFields.map(({ label, placeholder, value, isValid, onChange }, index) => <AXAtextfield key={index} name={label} label={label} placeholder={placeholder} value={value} invalid={!isValid} onChange={onChange} />)}</>
-            <AXAbutton data-test='saveButton' onClick={this._savePlayers}>save</AXAbutton>
+        <Board data-test="board">
+          {fields.map(({ content, onClick }, index) => (
+            <Field key={index} content={content} onClick={onClick} />
+          ))}
+        </Board>
+        {userDialogVisible && (
+          <Dialog data-test="UserDialog">
+            <>
+              {textFields.map(
+                ({ label, placeholder, value, isValid, onChange }, index) => (
+                  <AXAtextfield
+                    key={index}
+                    name={label}
+                    label={label}
+                    placeholder={placeholder}
+                    value={value}
+                    invalid={!isValid}
+                    onChange={onChange}
+                  />
+                )
+              )}
+            </>
+            <AXAbutton data-test="saveButton" onClick={this._savePlayers}>
+              save
+            </AXAbutton>
           </Dialog>
-        }
-        {
-          messageDialogVisible &&
-          <Dialog data-test='MessageDialog'>
-            <AXAtitle data-test='message' rank={4}>{message}</AXAtitle>
-            <AXAbutton data-test='restartButton' onClick={this._restart} >restart</AXAbutton>
+        )}
+        {messageDialogVisible && (
+          <Dialog data-test="MessageDialog">
+            <AXAtitle data-test="message" rank={4}>
+              {message}
+            </AXAtitle>
+            <AXAbutton data-test="restartButton" onClick={this._restart}>
+              restart
+            </AXAbutton>
           </Dialog>
-        }
-        {
-          loaderVisible &&
-          <Dialog data-test='LoaderDialog'>
+        )}
+        {loaderVisible && (
+          <Dialog data-test="LoaderDialog">
             <Loader />
           </Dialog>
-        }
+        )}
       </ThemeProvider>
     );
   }
@@ -72,28 +113,26 @@ export default class extends PureComponent<{}, State> {
   }
 
   _verifyPlayers(id: number = 0, players: Player[] = []) {
-    this._playerHandler
-      .loadPlayer(id)
-      .then((player) => {
-        if (player === null) {
+    this._playerHandler.loadPlayer(id).then((player) => {
+      if (player === null) {
+        this.setState({
+          loaderVisible: false,
+          userDialogVisible: !this.state.messageDialogVisible && true,
+        });
+      } else {
+        id++;
+        players.push(player);
+
+        if (id === this.state.players.length) {
           this.setState({
+            players,
             loaderVisible: false,
-            userDialogVisible: !this.state.messageDialogVisible && true
           });
         } else {
-          id++;
-          players.push(player);
-
-          if (id === this.state.players.length) {
-            this.setState({
-              players,
-              loaderVisible: false
-            });
-          } else {
-            this._verifyPlayers(id, players);
-          }
+          this._verifyPlayers(id, players);
         }
-      });
+      }
+    });
   }
 
   _savePlayers = () => {
@@ -116,20 +155,29 @@ export default class extends PureComponent<{}, State> {
         const player = new Player(name);
 
         players.push(player);
-        this._playerHandler.savePlayer(index, player)
+        this._playerHandler.savePlayer(index, player);
       });
 
       this.setState({
         players,
-        userDialogVisible: false
+        userDialogVisible: false,
       });
     } else {
       this.setState({ textFields });
     }
-  }
+  };
 
   _selectField(index: number) {
-    const COMBINATIONS_TO_WIN_THE_GAME = [[0, 1, 2], [3, 4, 5], [6, 7, 8], [0, 3, 6], [1, 4, 7], [2, 5, 8], [0, 4, 8], [2, 4, 6]];
+    const COMBINATIONS_TO_WIN_THE_GAME = [
+      [0, 1, 2],
+      [3, 4, 5],
+      [6, 7, 8],
+      [0, 3, 6],
+      [1, 4, 7],
+      [2, 5, 8],
+      [0, 4, 8],
+      [2, 4, 6],
+    ];
     const currentPlayer = this._moves % this.state.players.length;
     const fields = [...this.state.fields];
 
@@ -137,21 +185,26 @@ export default class extends PureComponent<{}, State> {
       return;
     }
 
-    fields[index].content = (currentPlayer === Player.X ? 'X' : 'O');
+    fields[index].content = currentPlayer === Player.X ? "X" : "O";
     this.setState({ fields });
 
     for (const combination of COMBINATIONS_TO_WIN_THE_GAME) {
       const field = (index: number) => fields[combination[index]].content;
-      const fieldsAreEqual = (index1: number, index2: number) => field(index1) === field(index2);
+      const fieldsAreEqual = (index1: number, index2: number) =>
+        field(index1) === field(index2);
 
-      if (!this._isEmpty(field(0)) && fieldsAreEqual(0, 1) && fieldsAreEqual(1, 2)) {
+      if (
+        !this._isEmpty(field(0)) &&
+        fieldsAreEqual(0, 1) &&
+        fieldsAreEqual(1, 2)
+      ) {
         this._displayWinner(currentPlayer);
         return;
       }
     }
 
     if (this._checkIfDraw(fields)) {
-      this._displayMessage('Unentschieden!');
+      this._displayMessage("Unentschieden!");
       return;
     }
 
@@ -165,7 +218,7 @@ export default class extends PureComponent<{}, State> {
     this._playerHandler.savePlayer(id, players[id]);
     this.setState({ players });
 
-    this._displayMessage(players[id].name + ' hat gewonnen!');
+    this._displayMessage(players[id].name + " hat gewonnen!");
   }
 
   _displayMessage = (message: string) => {
@@ -173,17 +226,17 @@ export default class extends PureComponent<{}, State> {
       message,
       messageDialogVisible: true,
       loaderVisible: false,
-      userDialogVisible: false
+      userDialogVisible: false,
     });
-  }
+  };
 
   _switchTheme = () => {
     this.setState({
-      darkMode: !this.state.darkMode
+      darkMode: !this.state.darkMode,
     });
-  }
+  };
 
-  _checkIfDraw(fields: State['fields']): boolean {
+  _checkIfDraw(fields: State["fields"]): boolean {
     for (const { content } of fields) {
       if (this._isEmpty(content)) {
         return false;
@@ -199,10 +252,10 @@ export default class extends PureComponent<{}, State> {
     for (let index = 0, max = this.state.players.length; index < max; index++) {
       this._playerHandler.deletePlayer(index);
     }
-  }
+  };
 
   _isEmpty(item: string): boolean {
-    return item.trim() === '';
+    return item.trim() === "";
   }
 
   _onChange(index: number, event: React.ChangeEvent<HTMLInputElement>): void {
@@ -217,28 +270,28 @@ export default class extends PureComponent<{}, State> {
 
     this.setState(this._initialState);
     this._verifyPlayers();
-  }
+  };
 
   get _initialState(): State {
-    const PLAYERS = ['X', 'O'];
+    const PLAYERS = ["X", "O"];
     const FIELD_COUNT = 9;
 
-    const players = PLAYERS.map(name => new Player(name));
+    const players = PLAYERS.map((name) => new Player(name));
     const fields = Array(FIELD_COUNT);
 
     for (let index = 0; index < FIELD_COUNT; index++) {
       fields[index] = {
-        content: '',
-        onClick: this._selectField.bind(this, index)
-      }
+        content: "",
+        onClick: this._selectField.bind(this, index),
+      };
     }
 
     const textFields = PLAYERS.map((name, index) => ({
-      label: 'Spieler ' + name,
-      placeholder: 'Name',
-      value: '',
+      label: "Spieler " + name,
+      placeholder: "Name",
+      value: "",
       isValid: true,
-      onChange: this._onChange.bind(this, index)
+      onChange: this._onChange.bind(this, index),
     }));
 
     return {
@@ -247,9 +300,9 @@ export default class extends PureComponent<{}, State> {
       textFields,
       loaderVisible: true,
       userDialogVisible: false,
-      message: '',
+      message: "",
       messageDialogVisible: false,
-      darkMode: (this.state != undefined ? this.state.darkMode : false)
-    }
-  };
+      darkMode: this.state != undefined ? this.state.darkMode : false,
+    };
+  }
 }
